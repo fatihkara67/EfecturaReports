@@ -19,19 +19,9 @@ public class BpmServiceStepDefs extends BaseStep {
         pages.elastic().loginElastic();
     }
 
-    @Given("The user navigates to {string}")
-    public void theUserNavigatesToBpm(String service) {
-        Driver.getDriver().get(ConfigurationReader.getProperty(service));
-    }
-
-//    @Given("Verify service")
-//    public void verify() {
-//        pages.elastic().verify();
-//    }
-
     @Given("The user login elastic service")
     public void theUserLoginElasticService() {
-        List<String> services = new ArrayList<>(Arrays.asList("bpm", "itemService", "otpService", "dbConnector", "fletumApi"));
+        List<String> services = new ArrayList<>(Arrays.asList("bpm", "itemService", "otpService", "dbConnector", "fletumApi", "fletumWeb", "diaService"));
         for (String service : services) {
             BrowserUtils.wait(3);
             Driver.getDriver().get(ConfigurationReader.getProperty(service));
