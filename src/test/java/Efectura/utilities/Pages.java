@@ -1,19 +1,23 @@
 package Efectura.utilities;
 
 
-import Efectura.pages.Elastic;
+import Efectura.pages.CCIPage;
+import Efectura.pages.DiaPages;
 
 public class Pages {
-    private Elastic elastic;
+    private DiaPages diaPages;
+    private CCIPage cciPage;
 
 
 
     public Pages() {
-        this.elastic = new Elastic();
+        this.diaPages = new DiaPages();
+        this.cciPage = new CCIPage();
     }
 
-    public Elastic elastic() {return elastic;}
+    public DiaPages diaPages() {return diaPages;}
 
+    public CCIPage cciPage() {return cciPage;}
 }
 
 
