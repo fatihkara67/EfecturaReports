@@ -37,6 +37,15 @@ public class CCIPage extends BasePage {
     @FindBy(xpath = "//div[@aria-label='Message Body']")
     private WebElement messageBodyInputBox;
 
+    @FindBy(xpath = "//input[@name='email']")
+    private WebElement emailInputBoxInCciElastic;
+
+    @FindBy(xpath = "//input[@name='password']")
+    private WebElement passwordInputBoxInCciElastic;
+
+    @FindBy(xpath = "//span[text()='Log in']")
+    private WebElement loginButtonInCciElastic;
+
     public void cciLoginElastic() {
         Driver.getDriver().get("https://commercial-elk-prod.kb.europe-west1.gcp.cloud.es.io:9243/login");
         elasticOptions.click();
