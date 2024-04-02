@@ -74,6 +74,39 @@ public class DiaPages extends BasePage {
     @FindBy(id = "taskList_table")
     private WebElement taskListTedarikci;
 
+    @FindBy(xpath = "//input[@type='email']")
+    private WebElement outlookEmailInputBox;
+
+    @FindBy(xpath = "//button[@type='submit']")
+    private WebElement outlookSubmitButton;
+
+    @FindBy(xpath = "//input[@type='password']")
+    private WebElement outlookPasswordInputBox;
+
+    @FindBy(xpath = "//span[text()='Yeni posta']")
+    private WebElement outlookNewMailButton;
+
+    @FindBy(xpath = "//div[@aria-label='Kime']")
+    private WebElement outlookRecipientsInputBox;
+
+    @FindBy(xpath = "(//span[text()='fatih.kara@efectura.com'])[1]")
+    private WebElement karaMailOption;
+
+    @FindBy(xpath = "(//span[text()='cem@efectura.com'])[1]")
+    private WebElement cemMailOption;
+
+    @FindBy(xpath = "(//span[text()='emre.kurt@efectura.com'])[1]")
+    private WebElement emreMailOption;
+
+    @FindBy(xpath = "//input[@placeholder='Konu ekleyin']")
+    private WebElement outlookMailSubjectInputBox;
+
+    @FindBy(xpath = "//div[@aria-label='İleti gövdesi, çıkmak için Alt+F10’a basın']")
+    private WebElement outlookMailMessageBodyInputBox;
+
+    @FindBy(xpath = "//button[@title='Gönder (Ctrl+Enter)']")
+    private WebElement outlookEmailSendButton;
+
 
     public void loginElastic() {
         BrowserUtils.waitForVisibility(usernameInputBox,50);
@@ -105,10 +138,10 @@ public class DiaPages extends BasePage {
     }
 
     public void loginEmail() {
-        emailInputBox.sendKeys("emre.kurt@efectura.com");
+        emailInputBox.sendKeys("fkara1667@gmail.com");
         nextButton.click();
         BrowserUtils.waitForVisibility(emailPasswordInputBox,5);
-        emailPasswordInputBox.sendKeys("efecturaemre");
+        emailPasswordInputBox.sendKeys("5355159Fk@");
         nextButton.click();
         BrowserUtils.waitForVisibility(composeButton,5);
     }
@@ -117,7 +150,7 @@ public class DiaPages extends BasePage {
 
     public void enterEmailCredentials() {
         BrowserUtils.wait(3);
-        recipientsInputBox.sendKeys("fatih.kara@efectura.com, emre.kurt@efectura.com");
+        recipientsInputBox.sendKeys("fatih.kara@efectura.com");
         subjectInputBox.sendKeys("Environment Elastic, Flows And Tedarik Screen Control");
         System.out.println("Results: ");
         System.out.println(getEmailMessageBody());
@@ -185,5 +218,24 @@ public class DiaPages extends BasePage {
         }else {
             result = "Tedarikçi Ekran Kontrolü: Tablo Gelmiyor";
         }
+    }
+
+    public void sendsEmailForDia() {
+        outlookNewMailButton.click();
+        BrowserUtils.waitForVisibility(outlookRecipientsInputBox,7);
+        outlookRecipientsInputBox.click();
+        outlookRecipientsInputBox.sendKeys("fatih.kara@efectura.com");
+        karaMailOption.click();
+//        outlookRecipientsInputBox.click();
+//        outlookRecipientsInputBox.sendKeys("cem@efectura.com");
+//        cemMailOption.click();
+//        outlookRecipientsInputBox.click();
+//        outlookRecipientsInputBox.sendKeys("emre.kurt@efectura.com");
+//        emreMailOption.click();
+        outlookMailSubjectInputBox.sendKeys("Environment Elastic, Flows And Tedarik Screen Control");
+        outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBody());
+        outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBodyForFlow());
+        outlookEmailSendButton.click();
+        BrowserUtils.wait(2);
     }
 }

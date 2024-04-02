@@ -13,10 +13,12 @@ Feature: BPM Service
     Given The user take the menu count
     Given The user login tedarikci screen
     Given Wait tedarik table
-    Given user go to mail
-    When  user login email
-    When user click compose button
-    When user enters mail credentials
-    Then user clicks send button
+#    Given user go to mail
+#    When  user login email
+#    When user click compose button
+#    When user enters mail credentials
+#    Then user clicks send button
+    Given user login to outlook
+    Given The user sends email for dia
 
 

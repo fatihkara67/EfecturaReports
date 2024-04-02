@@ -32,7 +32,9 @@ public class DiaStepDefs extends BaseStep {
 
     @Given("user go to mail")
     public void userGoToMail() {
-        Driver.getDriver().get("https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F2%2F&emr=1&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F2%2F&ifkv=ARZ0qKIMpKLfpGCGrAv2NAxvajiUQ_v0gy2yvMZaXqJyYB-h9r-CPOUradhi4bR2TygEvJI_b8Ka&osid=1&passive=1209600&service=mail&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-1978881952%3A1711122851010429&theme=mn&ddm=0#inbox");
+        //Driver.getDriver().get("https://accounts.google.com/v3/signin/identifier?checkedDomains=youtube&continue=https%3A%2F%2Faccounts.google.com%2Fb%2F0%2FAddMailService&ddm=0&flowName=GlifWebSignIn&followup=https%3A%2F%2Faccounts.google.com%2Fb%2F0%2FAddMailService&hl=tr&ifkv=ARZ0qKL-_1mTeG5WHKYwFR48T4Ma88bYV1F8aMHtb6aI2zRRjtvLDuGGdlq2NAmKTECOwvmxIjaPpg&pstMsg=1&theme=mn&flowEntry=AccountChooser");
+        Driver.getDriver().get("https://outlook.live.com/mail/0/");
+        BrowserUtils.wait(15);
     }
 
     @When("user login email")
@@ -100,5 +102,10 @@ public class DiaStepDefs extends BaseStep {
     @Given("Wait tedarik table")
     public void waitTedarikTable() {
         pages.diaPages().waitTedarikciTable();
+    }
+
+    @Given("The user sends email for dia")
+    public void theUserSendsEmailForDia() {
+        pages.diaPages().sendsEmailForDia();
     }
 }
