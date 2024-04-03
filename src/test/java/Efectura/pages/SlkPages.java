@@ -66,6 +66,12 @@ public class SlkPages extends BasePage {
     @FindBy(xpath = "//button[@title='Gönder (Ctrl+Enter)']")
     private WebElement outlookEmailSendButton;
 
+    @FindBy(xpath = "//*[@id='O365_MainLink_MePhoto']/div/div/div/div/div[2]")
+    private WebElement outlookLogoutProfile;
+
+    @FindBy(id = "mectrl_body_signOut")
+    private WebElement outlookLogoutButton;
+
 
     public void loginNewRelic() {
         Driver.getDriver().get("https://one.eu.newrelic.com/nr1-core?account=4144276&state=d7d8a30e-bff2-8c4b-0472-eb7573a4d579");
@@ -92,7 +98,7 @@ public class SlkPages extends BasePage {
 
     List<String> resultsForRestarts = new ArrayList<>();
     public void verifyForRestarts(String restart) {
-        BrowserUtils.wait(2);
+        BrowserUtils.wait(5);
         if (!isElementDisplayed(noMatchingInfo)) {
             results.add(restart + ": Error Number: " + errorInfoNewRelic.getText());
         } else {
@@ -128,24 +134,42 @@ public class SlkPages extends BasePage {
         BrowserUtils.wait(7);
     }
 
+
+    public void enterRecipients() {
+        List<String> emailRecipients = new ArrayList<>();
+        emailRecipients.add("fatih.kara@efectura.com");
+        emailRecipients.add("emre.kurt@efectura.com");
+        emailRecipients.add("cem@efectura.com");
+        emailRecipients.add("adem.ciftci@efectura.com");
+        emailRecipients.add("cagdas.bakin@efectura.com");
+        emailRecipients.add("onur.coskun@efectura.com");
+
+        for (String recipient : emailRecipients) {
+//            outlookRecipientsInputBox.click();
+            outlookRecipientsInputBox.sendKeys(recipient);
+            outlookRecipientsInputBox.sendKeys(", ");
+            BrowserUtils.wait(2);
+        }
+
+    }
+
     public void sendsMail() {
         outlookNewMailButton.click();
         BrowserUtils.waitForVisibility(outlookRecipientsInputBox,7);
-        outlookRecipientsInputBox.click();
-        outlookRecipientsInputBox.sendKeys("fatih.kara@efectura.com");
-        karaMailOption.click();
-//        outlookRecipientsInputBox.click();
-//        outlookRecipientsInputBox.sendKeys("cem@efectura.com");
-//        cemMailOption.click();
-//        outlookRecipientsInputBox.click();
-//        outlookRecipientsInputBox.sendKeys("emre.kurt@efectura.com");
-//        emreMailOption.click();
+        enterRecipients();
         outlookMailSubjectInputBox.sendKeys("SLK Environment Controls");
         outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBody());
         outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBodyForRestarts());
         outlookMailMessageBodyInputBox.sendKeys("AsdASDASDasd");
-        outlookEmailSendButton.click();
+        //outlookEmailSendButton.click();
         BrowserUtils.wait(2);
+    }
+
+    public void logoutMail() {
+        outlookLogoutProfile.click();
+        BrowserUtils.wait(5);
+        outlookLogoutButton.click();
+        BrowserUtils.wait(5);
     }
 
 }

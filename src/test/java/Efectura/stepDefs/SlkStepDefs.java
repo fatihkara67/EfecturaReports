@@ -51,4 +51,8 @@ public class SlkStepDefs extends BaseStep {
         pages.slkPages().sendsMail();
     }
 
+    @Given("user log out the mail")
+    public void userLogOutTheMail() {
+        pages.slkPages().logoutMail();
+    }
 }
