@@ -3,8 +3,6 @@ package Efectura.pages;
 import Efectura.utilities.BrowserUtils;
 import Efectura.utilities.ConfigurationReader;
 import Efectura.utilities.Driver;
-import org.junit.Assert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -30,7 +28,7 @@ public class SlkPages extends BasePage {
     @FindBy(xpath = "//h2[contains(text(),'logs found')]")
     private WebElement errorInfoNewRelic;
 
-    @FindBy(id="empty-state-title-0")
+    @FindBy(xpath = "//h4[text()='No logs found during this time range']")
     private WebElement noMatchingInfo;
 
     @FindBy(xpath = "//input[@type='email']")
@@ -88,7 +86,7 @@ public class SlkPages extends BasePage {
 
     List<String> results = new ArrayList<>();
     public void verify(String service) {
-        BrowserUtils.wait(2);
+        BrowserUtils.wait(5);
         if (!isElementDisplayed(noMatchingInfo)) {
             results.add(service + ": Error Number: " + errorInfoNewRelic.getText());
         } else {
@@ -134,8 +132,7 @@ public class SlkPages extends BasePage {
         BrowserUtils.wait(7);
     }
 
-
-    public void enterRecipients() {
+    public void sendMailForSlk() {
         List<String> emailRecipients = new ArrayList<>();
         emailRecipients.add("fatih.kara@efectura.com");
         emailRecipients.add("emre.kurt@efectura.com");
@@ -145,24 +142,16 @@ public class SlkPages extends BasePage {
         emailRecipients.add("onur.coskun@efectura.com");
 
         for (String recipient : emailRecipients) {
-//            outlookRecipientsInputBox.click();
+            outlookNewMailButton.click();
+            BrowserUtils.waitForVisibility(outlookRecipientsInputBox,7);
             outlookRecipientsInputBox.sendKeys(recipient);
-            outlookRecipientsInputBox.sendKeys(", ");
+            outlookMailSubjectInputBox.sendKeys("SLK Environment Controls");
+            outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBody());
+            outlookMailMessageBodyInputBox.sendKeys("------------------------------------");
+            outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBodyForRestarts());
+            outlookEmailSendButton.click();
             BrowserUtils.wait(2);
         }
-
-    }
-
-    public void sendsMail() {
-        outlookNewMailButton.click();
-        BrowserUtils.waitForVisibility(outlookRecipientsInputBox,7);
-        enterRecipients();
-        outlookMailSubjectInputBox.sendKeys("SLK Environment Controls");
-        outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBody());
-        outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBodyForRestarts());
-        outlookMailMessageBodyInputBox.sendKeys("AsdASDASDasd");
-        //outlookEmailSendButton.click();
-        BrowserUtils.wait(2);
     }
 
     public void logoutMail() {

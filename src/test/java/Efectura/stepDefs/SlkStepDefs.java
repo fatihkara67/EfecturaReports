@@ -5,7 +5,6 @@ import Efectura.utilities.ConfigurationReader;
 import Efectura.utilities.Driver;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
-import org.openqa.selenium.By;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +47,7 @@ public class SlkStepDefs extends BaseStep {
 
     @When("user sends the mail")
     public void userSendsTheMail() {
-        pages.slkPages().sendsMail();
+        pages.slkPages().sendMailForSlk();
     }
 
     @Given("user log out the mail")

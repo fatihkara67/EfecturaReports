@@ -220,22 +220,43 @@ public class DiaPages extends BasePage {
         }
     }
 
-    public void sendsEmailForDia() {
-        outlookNewMailButton.click();
-        BrowserUtils.waitForVisibility(outlookRecipientsInputBox,7);
-        outlookRecipientsInputBox.click();
-        outlookRecipientsInputBox.sendKeys("fatih.kara@efectura.com");
-        karaMailOption.click();
-//        outlookRecipientsInputBox.click();
-//        outlookRecipientsInputBox.sendKeys("cem@efectura.com");
-//        cemMailOption.click();
-//        outlookRecipientsInputBox.click();
-//        outlookRecipientsInputBox.sendKeys("emre.kurt@efectura.com");
-//        emreMailOption.click();
-        outlookMailSubjectInputBox.sendKeys("Environment Elastic, Flows And Tedarik Screen Control");
-        outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBody());
-        outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBodyForFlow());
-        outlookEmailSendButton.click();
-        BrowserUtils.wait(2);
+    public void enterRecipients() {
+        List<String> emailRecipients = new ArrayList<>();
+        emailRecipients.add("fatih.kara@efectura.com");
+        emailRecipients.add("emre.kurt@efectura.com");
+        emailRecipients.add("cem@efectura.com");
+        emailRecipients.add("adem.ciftci@efectura.com");
+        emailRecipients.add("cagdas.bakin@efectura.com");
+        emailRecipients.add("onur.coskun@efectura.com");
+
+        for (String recipient : emailRecipients) {
+//            outlookRecipientsInputBox.click();
+            outlookRecipientsInputBox.sendKeys(recipient);
+            outlookRecipientsInputBox.sendKeys(", ");
+            BrowserUtils.wait(2);
+        }
+
+    }
+
+    public void sendMailForDia() {
+        List<String> emailRecipients = new ArrayList<>();
+        emailRecipients.add("fatih.kara@efectura.com");
+        emailRecipients.add("emre.kurt@efectura.com");
+        emailRecipients.add("cem@efectura.com");
+        emailRecipients.add("adem.ciftci@efectura.com");
+        emailRecipients.add("cagdas.bakin@efectura.com");
+        emailRecipients.add("onur.coskun@efectura.com");
+
+        for (String recipient : emailRecipients) {
+            outlookNewMailButton.click();
+            BrowserUtils.waitForVisibility(outlookRecipientsInputBox,7);
+            outlookRecipientsInputBox.sendKeys(recipient);
+            outlookMailSubjectInputBox.sendKeys("Environment Elastic, Flows And Tedarik Screen Control");
+            outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBody());
+            outlookMailMessageBodyInputBox.sendKeys("-------------------");
+            outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBodyForFlow());
+            outlookEmailSendButton.click();
+            BrowserUtils.wait(2);
+        }
     }
 }

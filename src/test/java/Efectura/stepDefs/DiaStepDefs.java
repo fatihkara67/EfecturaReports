@@ -106,6 +106,6 @@ public class DiaStepDefs extends BaseStep {
 
     @Given("The user sends email for dia")
     public void theUserSendsEmailForDia() {
-        pages.diaPages().sendsEmailForDia();
+        pages.diaPages().sendMailForDia();
     }
 }
