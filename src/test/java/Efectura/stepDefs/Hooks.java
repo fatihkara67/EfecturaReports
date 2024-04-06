@@ -36,7 +36,7 @@ public class Hooks {
         } else {
             logger.info("Test scenario :: {} :: Passed", scenario.getName());
         }
-//        Driver.closeDriver();
+        Driver.closeDriver();
 
         BrowserUtils.wait(5);
 

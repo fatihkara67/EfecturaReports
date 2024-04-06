@@ -147,7 +147,7 @@ public class SlkPages extends BasePage {
             outlookRecipientsInputBox.sendKeys(recipient);
             outlookMailSubjectInputBox.sendKeys("SLK Environment Controls");
             outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBody());
-            outlookMailMessageBodyInputBox.sendKeys("------------------------------------");
+            outlookMailMessageBodyInputBox.sendKeys("------------------------------------\n");
             outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBodyForRestarts());
             outlookEmailSendButton.click();
             BrowserUtils.wait(2);
