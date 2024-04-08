@@ -1,5 +1,5 @@
 
-Feature: BPM Service
+Feature: DIA Environment Controls
 
   @regression
   Scenario: Look for errors

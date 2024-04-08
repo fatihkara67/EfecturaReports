@@ -25,7 +25,7 @@ public class DiaStepDefs extends BaseStep {
         for (String service : services) {
             BrowserUtils.wait(3);
             Driver.getDriver().get(ConfigurationReader.getProperty(service));
-            BrowserUtils.wait(2);
+            BrowserUtils.wait(15);
             pages.diaPages().verify(service);
         }
     }

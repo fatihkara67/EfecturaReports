@@ -118,7 +118,6 @@ public class DiaPages extends BasePage {
 
     List<String> results = new ArrayList<>();
     public void verify(String service) {
-        BrowserUtils.wait(2);
         if (!isElementDisplayed(noMatchingInfo)) {
             results.add(service + ": Error Number: " + numberOfFilteredData.getText());
         } else {
@@ -242,19 +241,22 @@ public class DiaPages extends BasePage {
         List<String> emailRecipients = new ArrayList<>();
         emailRecipients.add("fatih.kara@efectura.com");
         emailRecipients.add("emre.kurt@efectura.com");
-        emailRecipients.add("cem@efectura.com");
-        emailRecipients.add("adem.ciftci@efectura.com");
-        emailRecipients.add("cagdas.bakin@efectura.com");
-        emailRecipients.add("onur.coskun@efectura.com");
+        emailRecipients.add("semanur.gozuacik@efectura.com");
+//        emailRecipients.add("cem@efectura.com");
+//        emailRecipients.add("adem.ciftci@efectura.com");
+//        emailRecipients.add("cagdas.bakin@efectura.com");
+//        emailRecipients.add("onur.coskun@efectura.com");
 
         for (String recipient : emailRecipients) {
+            BrowserUtils.wait(15);
             outlookNewMailButton.click();
             BrowserUtils.waitForVisibility(outlookRecipientsInputBox,30);
             outlookRecipientsInputBox.sendKeys(recipient);
             outlookMailSubjectInputBox.sendKeys("Environment Elastic, Flows And Tedarik Screen Control");
             outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBody());
-            outlookMailMessageBodyInputBox.sendKeys("-----------------------------------\n");
+            outlookMailMessageBodyInputBox.sendKeys("---------------------------------------------\n");
             outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBodyForFlow());
+            BrowserUtils.waitForClickability(outlookEmailSendButton,30);
             outlookEmailSendButton.click();
             BrowserUtils.wait(2);
         }

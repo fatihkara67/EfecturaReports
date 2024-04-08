@@ -67,7 +67,7 @@ public class SlkPages extends BasePage {
     @FindBy(xpath = "//*[@id='O365_MainLink_MePhoto']/div/div/div/div/div[2]")
     private WebElement outlookLogoutProfile;
 
-    @FindBy(id = "mectrl_body_signOut")
+    @FindBy(xpath = "//a[text()='Oturumu kapat']")
     private WebElement outlookLogoutButton;
 
 
@@ -86,7 +86,7 @@ public class SlkPages extends BasePage {
 
     List<String> results = new ArrayList<>();
     public void verify(String service) {
-        BrowserUtils.wait(5);
+
         if (!isElementDisplayed(noMatchingInfo)) {
             results.add(service + ": Error Number: " + errorInfoNewRelic.getText());
         } else {
@@ -98,9 +98,9 @@ public class SlkPages extends BasePage {
     public void verifyForRestarts(String restart) {
         BrowserUtils.wait(5);
         if (!isElementDisplayed(noMatchingInfo)) {
-            results.add(restart + ": Error Number: " + errorInfoNewRelic.getText());
+            resultsForRestarts.add(restart + ": Error Number: " + errorInfoNewRelic.getText());
         } else {
-            results.add(restart + " : SUCCESS");
+            resultsForRestarts.add(restart + " : SUCCESS");
         }
     }
 
@@ -136,19 +136,22 @@ public class SlkPages extends BasePage {
         List<String> emailRecipients = new ArrayList<>();
         emailRecipients.add("fatih.kara@efectura.com");
         emailRecipients.add("emre.kurt@efectura.com");
-        emailRecipients.add("cem@efectura.com");
-        emailRecipients.add("adem.ciftci@efectura.com");
-        emailRecipients.add("cagdas.bakin@efectura.com");
-        emailRecipients.add("onur.coskun@efectura.com");
         emailRecipients.add("semanur.gozuacik@efectura.com");
+//        emailRecipients.add("cem@efectura.com");
+//        emailRecipients.add("adem.ciftci@efectura.com");
+//        emailRecipients.add("cagdas.bakin@efectura.com");
+//        emailRecipients.add("onur.coskun@efectura.com");
+
 
         for (String recipient : emailRecipients) {
+            BrowserUtils.waitForVisibility(outlookNewMailButton,30);
             outlookNewMailButton.click();
             BrowserUtils.waitForVisibility(outlookRecipientsInputBox,30);
             outlookRecipientsInputBox.sendKeys(recipient);
             outlookMailSubjectInputBox.sendKeys("SLK Environment Controls");
             outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBody());
-            outlookMailMessageBodyInputBox.sendKeys("------------------------------------\n");
+            outlookMailMessageBodyInputBox.sendKeys("--------------------------------------------\n");
+            BrowserUtils.wait(1);
             outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBodyForRestarts());
             outlookEmailSendButton.click();
             BrowserUtils.wait(2);
