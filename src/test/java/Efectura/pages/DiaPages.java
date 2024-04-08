@@ -249,11 +249,11 @@ public class DiaPages extends BasePage {
 
         for (String recipient : emailRecipients) {
             outlookNewMailButton.click();
-            BrowserUtils.waitForVisibility(outlookRecipientsInputBox,7);
+            BrowserUtils.waitForVisibility(outlookRecipientsInputBox,30);
             outlookRecipientsInputBox.sendKeys(recipient);
             outlookMailSubjectInputBox.sendKeys("Environment Elastic, Flows And Tedarik Screen Control");
             outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBody());
-            outlookMailMessageBodyInputBox.sendKeys("-------------------\n");
+            outlookMailMessageBodyInputBox.sendKeys("-----------------------------------\n");
             outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBodyForFlow());
             outlookEmailSendButton.click();
             BrowserUtils.wait(2);

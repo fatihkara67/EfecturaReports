@@ -140,10 +140,11 @@ public class SlkPages extends BasePage {
         emailRecipients.add("adem.ciftci@efectura.com");
         emailRecipients.add("cagdas.bakin@efectura.com");
         emailRecipients.add("onur.coskun@efectura.com");
+        emailRecipients.add("semanur.gozuacik@efectura.com");
 
         for (String recipient : emailRecipients) {
             outlookNewMailButton.click();
-            BrowserUtils.waitForVisibility(outlookRecipientsInputBox,7);
+            BrowserUtils.waitForVisibility(outlookRecipientsInputBox,30);
             outlookRecipientsInputBox.sendKeys(recipient);
             outlookMailSubjectInputBox.sendKeys("SLK Environment Controls");
             outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBody());
