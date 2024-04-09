@@ -242,10 +242,10 @@ public class DiaPages extends BasePage {
         emailRecipients.add("fatih.kara@efectura.com");
         emailRecipients.add("emre.kurt@efectura.com");
         emailRecipients.add("semanur.gozuacik@efectura.com");
-//        emailRecipients.add("cem@efectura.com");
-//        emailRecipients.add("adem.ciftci@efectura.com");
-//        emailRecipients.add("cagdas.bakin@efectura.com");
-//        emailRecipients.add("onur.coskun@efectura.com");
+        emailRecipients.add("cem@efectura.com");
+        emailRecipients.add("adem.ciftci@efectura.com");
+        emailRecipients.add("cagdas.bakin@efectura.com");
+        emailRecipients.add("onur.coskun@efectura.com");
 
         for (String recipient : emailRecipients) {
             BrowserUtils.wait(15);
