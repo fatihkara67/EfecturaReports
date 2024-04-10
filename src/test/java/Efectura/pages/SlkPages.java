@@ -134,13 +134,14 @@ public class SlkPages extends BasePage {
 
     public void sendMailForSlk() {
         List<String> emailRecipients = new ArrayList<>();
-        emailRecipients.add("fatih.kara@efectura.com");
         emailRecipients.add("emre.kurt@efectura.com");
         emailRecipients.add("semanur.gozuacik@efectura.com");
+        emailRecipients.add("ihsan.dinc@efectura.com");
         emailRecipients.add("cem@efectura.com");
         emailRecipients.add("adem.ciftci@efectura.com");
         emailRecipients.add("cagdas.bakin@efectura.com");
         emailRecipients.add("onur.coskun@efectura.com");
+        emailRecipients.add("fatih.kara@efectura.com");
 
 
         for (String recipient : emailRecipients) {
