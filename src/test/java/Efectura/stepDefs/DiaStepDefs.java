@@ -25,7 +25,7 @@ public class DiaStepDefs extends BaseStep {
         for (String service : services) {
             BrowserUtils.wait(3);
             Driver.getDriver().get(ConfigurationReader.getProperty(service));
-            BrowserUtils.wait(15);
+            BrowserUtils.wait(12);
             pages.diaPages().verify(service);
         }
     }
@@ -61,7 +61,7 @@ public class DiaStepDefs extends BaseStep {
     public void theUserLoginFletum() {
         Driver.getDriver().get("https://diageo.efectura.com/Account/Login");
         pages.diaPages().loginFletum();
-        BrowserUtils.wait(10);
+        BrowserUtils.wait(8);
     }
 
     @Given("The user open BPM page")

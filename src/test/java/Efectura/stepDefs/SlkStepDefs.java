@@ -23,7 +23,7 @@ public class SlkStepDefs extends BaseStep {
         for (String service : slkServices) {
 //            BrowserUtils.wait(5);
             Driver.getDriver().get(ConfigurationReader.getProperty(service));
-            BrowserUtils.wait(20);
+            BrowserUtils.wait(15);
             pages.slkPages().verify(service);
         }
     }
@@ -35,7 +35,7 @@ public class SlkStepDefs extends BaseStep {
         for (String restart : slkRestarts) {
 //            BrowserUtils.wait(5);
             Driver.getDriver().get(ConfigurationReader.getProperty(restart));
-            BrowserUtils.wait(10);
+            BrowserUtils.wait(8);
             pages.slkPages().verifyForRestarts(restart);
         }
     }

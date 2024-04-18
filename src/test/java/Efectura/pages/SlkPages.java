@@ -129,7 +129,7 @@ public class SlkPages extends BasePage {
         outlookPasswordInputBox.sendKeys("efectura1667");
         outlookSubmitButton.click();
         outlookSubmitButton.click();
-        BrowserUtils.wait(7);
+        BrowserUtils.wait(5);
     }
 
     public void sendMailForSlk() {
@@ -145,7 +145,7 @@ public class SlkPages extends BasePage {
 
 
         for (String recipient : emailRecipients) {
-            BrowserUtils.wait(23);
+            BrowserUtils.wait(20);
             outlookNewMailButton.click();
             BrowserUtils.waitForVisibility(outlookRecipientsInputBox,30);
             outlookRecipientsInputBox.sendKeys(recipient);
@@ -161,9 +161,9 @@ public class SlkPages extends BasePage {
 
     public void logoutMail() {
         outlookLogoutProfile.click();
-        BrowserUtils.wait(5);
+        BrowserUtils.wait(4);
         outlookLogoutButton.click();
-        BrowserUtils.wait(5);
+        BrowserUtils.wait(4);
     }
 
 }

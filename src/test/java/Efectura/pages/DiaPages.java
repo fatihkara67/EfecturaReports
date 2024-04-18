@@ -250,7 +250,7 @@ public class DiaPages extends BasePage {
 
 
         for (String recipient : emailRecipients) {
-            BrowserUtils.wait(15);
+            BrowserUtils.wait(12);
             outlookNewMailButton.click();
             BrowserUtils.waitForVisibility(outlookRecipientsInputBox,30);
             outlookRecipientsInputBox.sendKeys(recipient);
