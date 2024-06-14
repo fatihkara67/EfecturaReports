@@ -141,6 +141,7 @@ public class SlkPages extends BasePage {
         emailRecipients.add("adem.ciftci@efectura.com");
         emailRecipients.add("cagdas.bakin@efectura.com");
         emailRecipients.add("onur.coskun@efectura.com");
+        emailRecipients.add("beyza.onal@efectura.com");
         emailRecipients.add("fatih.kara@efectura.com");
 
 

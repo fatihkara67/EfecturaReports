@@ -77,15 +77,14 @@ public class DiaStepDefs extends BaseStep {
 
     @Given("The user take the modul count")
     public void theUserTakeTheModulCount() {
-        BrowserUtils.wait(10);
+        BrowserUtils.wait(15);
         pages.diaPages().takeModulCount();
     }
 
     @Given("The user take the menu count")
     public void theUserTakeTheMenuCount() {
-        BrowserUtils.wait(10);
+        BrowserUtils.wait(15);
         pages.diaPages().takeMenuCount();
-
     }
 
     @When("user enters mail credentials for flow")
