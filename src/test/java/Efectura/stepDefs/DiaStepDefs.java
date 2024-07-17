@@ -64,6 +64,11 @@ public class DiaStepDefs extends BaseStep {
         BrowserUtils.wait(8);
     }
 
+    @Given("The user impersonate Beyza")
+    public void theUserImpersonateBeyza() {
+        pages.diaPages().impersonateBeyza();
+    }
+
     @Given("The user open BPM page")
     public void theUserOpenBPMPage() {
         Driver.getDriver().get("https://diageo.efectura.com/Task/TaskList");
@@ -107,4 +112,11 @@ public class DiaStepDefs extends BaseStep {
     public void theUserSendsEmailForDia() {
         pages.diaPages().sendMailForDia();
     }
+
+    //---------------------------------------------------------------
+    @Given("The user sends group email for dia")
+    public void theUserSendsGroupEmailForDia() {
+        pages.diaPages().sendGroupEmailForDia();
+    }
+
 }

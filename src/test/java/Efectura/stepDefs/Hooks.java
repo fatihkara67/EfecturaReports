@@ -24,7 +24,6 @@ public class Hooks {
         logger.info("Test scenario :: {}", scenario.getName());
         Driver.getDriver().manage().window().setSize(new Dimension(1920, 1080));
         Driver.getDriver().manage().window().maximize();
-        Driver.getDriver().get(ConfigurationReader.getProperty("url"));
     }
     @After
     public static void tearDown(Scenario scenario) {

@@ -71,6 +71,18 @@ public class SlkPages extends BasePage {
     private WebElement outlookLogoutButton;
 
 
+    //------------------------------------------------------------------------------
+    @FindBy(xpath = "//span[contains(text(),'Efectura-QA')]")
+    private WebElement efecturaMailGroup;
+
+    @FindBy(xpath = "//span[contains(text(),'Deneme')]")
+    private WebElement denemeMailGroup;
+
+    @FindBy(xpath = "//span[contains(text(),'E-posta gönder')]")
+    private WebElement sendMailLink;
+    //-----------------------------------------------------------------------------------
+
+
     public void loginNewRelic() {
         Driver.getDriver().get("https://one.eu.newrelic.com/nr1-core?account=4144276&state=d7d8a30e-bff2-8c4b-0472-eb7573a4d579");
         BrowserUtils.waitForVisibility(emailNewRelic, 25);
@@ -86,7 +98,7 @@ public class SlkPages extends BasePage {
 
     List<String> results = new ArrayList<>();
     public void verify(String service) {
-
+        BrowserUtils.wait(2);
         if (!isElementDisplayed(noMatchingInfo)) {
             results.add(service + ": Error Number: " + errorInfoNewRelic.getText());
         } else {
@@ -134,6 +146,7 @@ public class SlkPages extends BasePage {
 
     public void sendMailForSlk() {
         List<String> emailRecipients = new ArrayList<>();
+        emailRecipients.add("beyza.onal@efectura.com");
         emailRecipients.add("emre.kurt@efectura.com");
         emailRecipients.add("semanur.gozuacik@efectura.com");
         emailRecipients.add("ihsan.dinc@efectura.com");
@@ -141,7 +154,6 @@ public class SlkPages extends BasePage {
         emailRecipients.add("adem.ciftci@efectura.com");
         emailRecipients.add("cagdas.bakin@efectura.com");
         emailRecipients.add("onur.coskun@efectura.com");
-        emailRecipients.add("beyza.onal@efectura.com");
         emailRecipients.add("fatih.kara@efectura.com");
 
 
@@ -155,6 +167,7 @@ public class SlkPages extends BasePage {
             outlookMailMessageBodyInputBox.sendKeys("--------------------------------------------\n");
             BrowserUtils.wait(1);
             outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBodyForRestarts());
+            System.out.println(getEmailMessageBodyForRestarts());
             outlookEmailSendButton.click();
             BrowserUtils.wait(2);
         }
@@ -167,4 +180,17 @@ public class SlkPages extends BasePage {
         BrowserUtils.wait(4);
     }
 
+    public void sendGroupMailForSlk() {
+        efecturaMailGroup.click();
+        sendMailLink.click();
+
+        outlookMailSubjectInputBox.sendKeys("SLK Environment Controls");
+        outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBody());
+        outlookMailMessageBodyInputBox.sendKeys("--------------------------------------------\n");
+        BrowserUtils.wait(1);
+        outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBodyForRestarts());
+        System.out.println(getEmailMessageBodyForRestarts());
+        outlookEmailSendButton.click();
+        BrowserUtils.wait(2);
+    }
 }

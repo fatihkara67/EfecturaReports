@@ -23,7 +23,7 @@ public class DiaPages extends BasePage {
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement loginButton;
 
-    @FindBy(xpath = "//h2[text()='No results match your search criteria']")
+    @FindBy(xpath = "//h2[contains(.,'No results match your search criteria')]")
     private WebElement noMatchingInfo;
 
     @FindBy(xpath = "//div/div/strong")
@@ -107,8 +107,26 @@ public class DiaPages extends BasePage {
     @FindBy(xpath = "//button[@title='Gönder (Ctrl+Enter)']")
     private WebElement outlookEmailSendButton;
 
+    @FindBy(xpath = "//span[contains(text(),'Bürünmek')]")
+    private WebElement impersonateButton;
+
+    @FindBy(xpath = "//a[@id='impersonate-fletum']")
+    private WebElement impersonateFletumButton;
+
+    //------------------------------------------------------------------------------
+    @FindBy(xpath = "//span[contains(text(),'Efectura-QA')]")
+    private WebElement efecturaMailGroup;
+
+    @FindBy(xpath = "//span[contains(text(),'Deneme')]")
+    private WebElement denemeMailGroup;
+
+    @FindBy(xpath = "//span[contains(text(),'E-posta gönder')]")
+    private WebElement sendMailLink;
+    //-----------------------------------------------------------------------------------
+
 
     public void loginElastic() {
+        Driver.getDriver().get(ConfigurationReader.getProperty("url"));
         BrowserUtils.waitForVisibility(usernameInputBox,50);
         usernameInputBox.sendKeys(ConfigurationReader.getProperty("eUsername"));
         passwordInputBox.sendKeys(ConfigurationReader.getProperty("ePassword"));
@@ -164,8 +182,8 @@ public class DiaPages extends BasePage {
     }
 
     public void loginFletum() {
-        fletumUsernameInputBox.sendKeys("Efectura");
-        fletumPasswordInputBox.sendKeys("@3f3c1ur4");
+        fletumUsernameInputBox.sendKeys("fatihkara");
+        fletumPasswordInputBox.sendKeys("Efectura123");
         fletumSubmitButton.click();
     }
 
@@ -263,5 +281,31 @@ public class DiaPages extends BasePage {
             outlookEmailSendButton.click();
             BrowserUtils.wait(2);
         }
+    }
+
+
+    //-------------------------------------------------------------------------
+    public void sendGroupEmailForDia() {
+        efecturaMailGroup.click();
+        sendMailLink.click();
+
+        BrowserUtils.wait(12);
+        outlookMailSubjectInputBox.sendKeys("Environment Elastic, Flows And Tedarik Screen Control");
+        outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBody());
+        outlookMailMessageBodyInputBox.sendKeys("---------------------------------------------\n");
+        outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBodyForFlow());
+        BrowserUtils.waitForClickability(outlookEmailSendButton,30);
+        outlookEmailSendButton.click();
+        BrowserUtils.wait(2);
+
+
+    }
+
+    public void impersonateBeyza() {
+        driver.get("https://diageo.efectura.com/UserManage/Edit/57599cee-cc5b-4f93-acd8-e1fc1de0caab");
+        BrowserUtils.wait(2);
+        impersonateButton.click();
+        BrowserUtils.wait(1);
+        impersonateFletumButton.click();
     }
 }
