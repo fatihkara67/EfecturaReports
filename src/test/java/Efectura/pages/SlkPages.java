@@ -98,7 +98,7 @@ public class SlkPages extends BasePage {
 
     List<String> results = new ArrayList<>();
     public void verify(String service) {
-        BrowserUtils.wait(2);
+        BrowserUtils.wait(6);
         if (!isElementDisplayed(noMatchingInfo)) {
             results.add(service + ": Error Number: " + errorInfoNewRelic.getText());
         } else {
@@ -108,7 +108,7 @@ public class SlkPages extends BasePage {
 
     List<String> resultsForRestarts = new ArrayList<>();
     public void verifyForRestarts(String restart) {
-        BrowserUtils.wait(5);
+        BrowserUtils.wait(10);
         if (!isElementDisplayed(noMatchingInfo)) {
             resultsForRestarts.add(restart + ": Error Number: " + errorInfoNewRelic.getText());
         } else {

@@ -35,7 +35,7 @@ public class SlkStepDefs extends BaseStep {
         for (String restart : slkRestarts) {
 //            BrowserUtils.wait(5);
             Driver.getDriver().get(ConfigurationReader.getProperty(restart));
-            BrowserUtils.wait(8);
+            BrowserUtils.wait(9);
             pages.slkPages().verifyForRestarts(restart);
         }
     }
