@@ -19,7 +19,7 @@ public class SlkStepDefs extends BaseStep {
 
     @Given("The user login SLK new relic page")
     public void theUserLoginSLKNewRelicPage() {
-        List<String> slkServices = new ArrayList<>(Arrays.asList("slkItemService", "slkFletumAPI", "slkFletumWeb", "slkDBConnector", "slkCEPModule", "slkCDPService", "slkApiGW", "slkOTPService", "slkSisService"));
+        List<String> slkServices = new ArrayList<>(Arrays.asList("slkItemService", "slkFletumApiWeb", "slkDBConnector", "slkCEPModule", "slkCDPService", "slkApiGW", "slkOTPService", "slkSisService"));
         for (String service : slkServices) {
 //            BrowserUtils.wait(5);
             Driver.getDriver().get(ConfigurationReader.getProperty(service));
@@ -30,7 +30,7 @@ public class SlkStepDefs extends BaseStep {
 
     @Given("The user login SLK new relic for restart")
     public void theUserLoginSLKNewRelicForRestart() {
-        List<String> slkRestarts = new ArrayList<>(Arrays.asList("slkItemServiceRestart", "slkFletumAPIRestart", "slkFletumWebRestart", "slkDBConnectorRestart", "slkCEPModuleRestart", "slkCDPServiceRestart", "slkApiGWRestart", "slkOTPServiceRestart", "slkSisServiceRestart" ));
+        List<String> slkRestarts = new ArrayList<>(Arrays.asList("slkItemServiceRestart", "slkFletumApiWebRestart", "slkDBConnectorRestart", "slkCEPModuleRestart", "slkCDPServiceRestart", "slkApiGWRestart", "slkOTPServiceRestart", "slkSisServiceRestart" ));
         //pages.cciPage().cciElasticFletumServices();
         for (String restart : slkRestarts) {
 //            BrowserUtils.wait(5);

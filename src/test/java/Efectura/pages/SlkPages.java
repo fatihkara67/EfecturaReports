@@ -43,7 +43,7 @@ public class SlkPages extends BasePage {
     @FindBy(xpath = "//span[text()='Yeni posta']")
     private WebElement outlookNewMailButton;
 
-    @FindBy(xpath = "//div[@aria-label='Kime']")
+    @FindBy(xpath = "//div[@aria-label='To']")
     private WebElement outlookRecipientsInputBox;
 
     @FindBy(xpath = "(//span[text()='fatih.kara@efectura.com'])[1]")
@@ -98,7 +98,7 @@ public class SlkPages extends BasePage {
 
     List<String> results = new ArrayList<>();
     public void verify(String service) {
-        BrowserUtils.wait(6);
+        BrowserUtils.wait(7);
         if (!isElementDisplayed(noMatchingInfo)) {
             results.add(service + ": Error Number: " + errorInfoNewRelic.getText());
         } else {
@@ -181,6 +181,7 @@ public class SlkPages extends BasePage {
     }
 
     public void sendGroupMailForSlk() {
+//        denemeMailGroup.click();
         efecturaMailGroup.click();
         sendMailLink.click();
 

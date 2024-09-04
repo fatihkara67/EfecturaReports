@@ -21,6 +21,7 @@ public class DiaStepDefs extends BaseStep {
 
     @Given("The user login elastic service")
     public void theUserLoginElasticService() {
+        BrowserUtils.wait(30);
         List<String> services = new ArrayList<>(Arrays.asList("bpm", "itemService", "otpService", "dbConnector", "fletumApi", "fletumWeb", "diaService"));
         for (String service : services) {
             BrowserUtils.wait(3);

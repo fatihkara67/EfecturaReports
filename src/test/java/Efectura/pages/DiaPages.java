@@ -126,12 +126,13 @@ public class DiaPages extends BasePage {
 
 
     public void loginElastic() {
-        Driver.getDriver().get(ConfigurationReader.getProperty("url"));
+        Driver.getDriver().get(ConfigurationReader.getProperty("bpm"));
         BrowserUtils.waitForVisibility(usernameInputBox,50);
         usernameInputBox.sendKeys(ConfigurationReader.getProperty("eUsername"));
         passwordInputBox.sendKeys(ConfigurationReader.getProperty("ePassword"));
         loginButton.click();
         BrowserUtils.wait(2);
+
     }
 
     List<String> results = new ArrayList<>();
@@ -222,7 +223,7 @@ public class DiaPages extends BasePage {
     public void tedarikciLogin() {
         Driver.getDriver().get("https://meygw.fletum.com/task/tasklistvendor");
         BrowserUtils.wait(5);
-        fletumUsernameInputBox.sendKeys("tedarikçi");
+        fletumUsernameInputBox.sendKeys("Tedarikçi");
         fletumPasswordInputBox.sendKeys("asdasd123");
         fletumSubmitButton.click();
     }
@@ -287,9 +288,10 @@ public class DiaPages extends BasePage {
     //-------------------------------------------------------------------------
     public void sendGroupEmailForDia() {
         efecturaMailGroup.click();
+        BrowserUtils.wait(1);
         sendMailLink.click();
 
-        BrowserUtils.wait(12);
+        BrowserUtils.wait(20);
         outlookMailSubjectInputBox.sendKeys("Environment Elastic, Flows And Tedarik Screen Control");
         outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBody());
         outlookMailMessageBodyInputBox.sendKeys("---------------------------------------------\n");
