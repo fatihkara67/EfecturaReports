@@ -12,6 +12,7 @@ import java.util.List;
 
 import static Efectura.utilities.BrowserUtils.isElementDisplayed;
 
+
 public class DiaPages extends BasePage {
 
     @FindBy(xpath = "//input[@name='username']")
@@ -107,7 +108,7 @@ public class DiaPages extends BasePage {
     @FindBy(xpath = "//button[@title='Gönder (Ctrl+Enter)']")
     private WebElement outlookEmailSendButton;
 
-    @FindBy(xpath = "//span[contains(text(),'Bürünmek')]")
+    @FindBy(xpath = "//span[contains(text(),'Impersonate')]")
     private WebElement impersonateButton;
 
     @FindBy(xpath = "//a[@id='impersonate-fletum']")
@@ -120,10 +121,22 @@ public class DiaPages extends BasePage {
     @FindBy(xpath = "//span[contains(text(),'Deneme')]")
     private WebElement denemeMailGroup;
 
+    @FindBy(xpath = "//div/div/div/div[3]/div/div/div/div/span[starts-with(text(),'QA Team')]")
+    private WebElement qaMailGroup;
+
+    @FindBy(xpath = "//span[contains(text(),'Gruplara Git')]")
+    private WebElement goToGroupsButton;
+
     @FindBy(xpath = "//span[contains(text(),'E-posta gönder')]")
     private WebElement sendMailLink;
+
+    @FindBy(xpath = "//p[contains(text(),'couldn't log you in')]")
+    private static WebElement couldNotLoginText;
     //-----------------------------------------------------------------------------------
 
+    public WebElement getCouldNotLoginText() {
+        return couldNotLoginText;
+    }
 
     public void loginElastic() {
         Driver.getDriver().get(ConfigurationReader.getProperty("bpm"));
@@ -132,7 +145,6 @@ public class DiaPages extends BasePage {
         passwordInputBox.sendKeys(ConfigurationReader.getProperty("ePassword"));
         loginButton.click();
         BrowserUtils.wait(2);
-
     }
 
     List<String> results = new ArrayList<>();
@@ -190,7 +202,7 @@ public class DiaPages extends BasePage {
 
     public void searchFor(String searchFlow) {
         searchFilterFlow.sendKeys(searchFlow);
-        BrowserUtils.wait(5);
+        BrowserUtils.wait(4);
     }
 
     String modulCount;
@@ -258,13 +270,12 @@ public class DiaPages extends BasePage {
 
     public void sendMailForDia() {
         List<String> emailRecipients = new ArrayList<>();
-        emailRecipients.add("emre.kurt@efectura.com");
         emailRecipients.add("ihsan.dinc@efectura.com");
         emailRecipients.add("semanur.gozuacik@efectura.com");
-        emailRecipients.add("cem@efectura.com");
-        emailRecipients.add("adem.ciftci@efectura.com");
-        emailRecipients.add("cagdas.bakin@efectura.com");
-        emailRecipients.add("onur.coskun@efectura.com");
+//        emailRecipients.add("cem@efectura.com");
+//        emailRecipients.add("adem.ciftci@efectura.com");
+//        emailRecipients.add("cagdas.bakin@efectura.com");
+//        emailRecipients.add("onur.coskun@efectura.com");
         emailRecipients.add("beyza.onal@efectura.com");
         emailRecipients.add("fatih.kara@efectura.com");
 
@@ -287,11 +298,14 @@ public class DiaPages extends BasePage {
 
     //-------------------------------------------------------------------------
     public void sendGroupEmailForDia() {
-        efecturaMailGroup.click();
+//        efecturaMailGroup.click();
+//        denemeMailGroup.click();
+        goToGroupsButton.click();
+        qaMailGroup.click();
         BrowserUtils.wait(1);
         sendMailLink.click();
 
-        BrowserUtils.wait(20);
+        BrowserUtils.wait(5);
         outlookMailSubjectInputBox.sendKeys("Environment Elastic, Flows And Tedarik Screen Control");
         outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBody());
         outlookMailMessageBodyInputBox.sendKeys("---------------------------------------------\n");
@@ -309,5 +323,48 @@ public class DiaPages extends BasePage {
         impersonateButton.click();
         BrowserUtils.wait(1);
         impersonateFletumButton.click();
+    }
+
+    public void sendMailForMM() {
+
+        List<String> emailRecipients = new ArrayList<>();
+        emailRecipients.add("ihsan.dinc@efectura.com");
+//        emailRecipients.add("semanur.gozuacik@efectura.com");
+//        emailRecipients.add("cem@efectura.com");
+//        emailRecipients.add("adem.ciftci@efectura.com");
+//        emailRecipients.add("cagdas.bakin@efectura.com");
+//        emailRecipients.add("onur.coskun@efectura.com");
+        emailRecipients.add("beyza.onal@efectura.com");
+        emailRecipients.add("fatih.kara@efectura.com");
+
+
+        for (String recipient : emailRecipients) {
+            BrowserUtils.wait(12);
+            outlookNewMailButton.click();
+            BrowserUtils.waitForVisibility(outlookRecipientsInputBox,30);
+            outlookRecipientsInputBox.sendKeys(recipient);
+            outlookMailSubjectInputBox.sendKeys("MM Service Controls");
+            outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBody());
+            BrowserUtils.waitForClickability(outlookEmailSendButton,30);
+            outlookEmailSendButton.click();
+            BrowserUtils.wait(2);
+        }
+
+    }
+
+    public void sendGroupEmailForMM() {
+//        denemeMailGroup.click();
+        goToGroupsButton.click();
+        qaMailGroup.click();
+        BrowserUtils.wait(1);
+        sendMailLink.click();
+
+
+        BrowserUtils.wait(5);
+        outlookMailSubjectInputBox.sendKeys("MM Service Controls");
+        outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBody());
+        BrowserUtils.waitForClickability(outlookEmailSendButton,30);
+        outlookEmailSendButton.click();
+        BrowserUtils.wait(2);
     }
 }

@@ -1,5 +1,6 @@
 package Efectura.stepDefs;
 
+import Efectura.pages.DiaPages;
 import Efectura.utilities.BrowserUtils;
 import Efectura.utilities.ConfigurationReader;
 import Efectura.utilities.Driver;
@@ -11,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static Efectura.utilities.BrowserUtils.isElementDisplayed;
+
 
 public class DiaStepDefs extends BaseStep {
 
@@ -21,12 +24,13 @@ public class DiaStepDefs extends BaseStep {
 
     @Given("The user login elastic service")
     public void theUserLoginElasticService() {
-        BrowserUtils.wait(30);
+        BrowserUtils.wait(8);
         List<String> services = new ArrayList<>(Arrays.asList("bpm", "itemService", "otpService", "dbConnector", "fletumApi", "fletumWeb", "diaService"));
         for (String service : services) {
-            BrowserUtils.wait(3);
+            BrowserUtils.wait(2);
             Driver.getDriver().get(ConfigurationReader.getProperty(service));
-            BrowserUtils.wait(12);
+            BrowserUtils.wait(6);
+
             pages.diaPages().verify(service);
         }
     }
@@ -35,7 +39,7 @@ public class DiaStepDefs extends BaseStep {
     public void userGoToMail() {
         //Driver.getDriver().get("https://accounts.google.com/v3/signin/identifier?checkedDomains=youtube&continue=https%3A%2F%2Faccounts.google.com%2Fb%2F0%2FAddMailService&ddm=0&flowName=GlifWebSignIn&followup=https%3A%2F%2Faccounts.google.com%2Fb%2F0%2FAddMailService&hl=tr&ifkv=ARZ0qKL-_1mTeG5WHKYwFR48T4Ma88bYV1F8aMHtb6aI2zRRjtvLDuGGdlq2NAmKTECOwvmxIjaPpg&pstMsg=1&theme=mn&flowEntry=AccountChooser");
         Driver.getDriver().get("https://outlook.live.com/mail/0/");
-        BrowserUtils.wait(15);
+        BrowserUtils.wait(12);
     }
 
     @When("user login email")
@@ -62,7 +66,7 @@ public class DiaStepDefs extends BaseStep {
     public void theUserLoginFletum() {
         Driver.getDriver().get("https://diageo.efectura.com/Account/Login");
         pages.diaPages().loginFletum();
-        BrowserUtils.wait(8);
+        BrowserUtils.wait(6);
     }
 
     @Given("The user impersonate Beyza")
@@ -73,7 +77,7 @@ public class DiaStepDefs extends BaseStep {
     @Given("The user open BPM page")
     public void theUserOpenBPMPage() {
         Driver.getDriver().get("https://diageo.efectura.com/Task/TaskList");
-        BrowserUtils.wait(10);
+        BrowserUtils.wait(7);
     }
 
     @Given("The user write {string} in search all filter")
@@ -83,13 +87,13 @@ public class DiaStepDefs extends BaseStep {
 
     @Given("The user take the modul count")
     public void theUserTakeTheModulCount() {
-        BrowserUtils.wait(15);
+        BrowserUtils.wait(10);
         pages.diaPages().takeModulCount();
     }
 
     @Given("The user take the menu count")
     public void theUserTakeTheMenuCount() {
-        BrowserUtils.wait(15);
+        BrowserUtils.wait(10);
         pages.diaPages().takeMenuCount();
     }
 

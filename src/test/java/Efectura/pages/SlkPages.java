@@ -13,6 +13,12 @@ import static Efectura.utilities.BrowserUtils.isElementDisplayed;
 
 public class SlkPages extends BasePage {
 
+    @FindBy(xpath = "//div[2]/div/div/span/div/div[1]/div/input")
+    public WebElement newrelicInputBox;
+
+    @FindBy(xpath = "//span[contains(text(),'Query logs')]")
+    public WebElement queryLogsButton;
+
     @FindBy(id = "login_email")
     private WebElement emailNewRelic;
 
@@ -43,7 +49,7 @@ public class SlkPages extends BasePage {
     @FindBy(xpath = "//span[text()='Yeni posta']")
     private WebElement outlookNewMailButton;
 
-    @FindBy(xpath = "//div[@aria-label='To']")
+    @FindBy(xpath = "//div[@aria-label='Kime']")
     private WebElement outlookRecipientsInputBox;
 
     @FindBy(xpath = "(//span[text()='fatih.kara@efectura.com'])[1]")
@@ -78,6 +84,12 @@ public class SlkPages extends BasePage {
     @FindBy(xpath = "//span[contains(text(),'Deneme')]")
     private WebElement denemeMailGroup;
 
+    @FindBy(xpath = "//span[contains(text(), 'QA Team')]")
+    private WebElement qaMailGroup;
+
+    @FindBy(xpath = "//span[contains(text(),'Gruplara Git')]")
+    private WebElement goToGroupsButton;
+
     @FindBy(xpath = "//span[contains(text(),'E-posta gönder')]")
     private WebElement sendMailLink;
     //-----------------------------------------------------------------------------------
@@ -93,27 +105,29 @@ public class SlkPages extends BasePage {
         BrowserUtils.wait(5);
         endNewRelic.click();
         submitNewRelic.click();
-        BrowserUtils.wait(5);
+        BrowserUtils.wait(4);
     }
 
     List<String> results = new ArrayList<>();
     public void verify(String service) {
-        BrowserUtils.wait(7);
+        BrowserUtils.wait(2);
         if (!isElementDisplayed(noMatchingInfo)) {
             results.add(service + ": Error Number: " + errorInfoNewRelic.getText());
         } else {
             results.add(service + " : SUCCESS");
         }
+        System.out.println(results);
     }
 
     List<String> resultsForRestarts = new ArrayList<>();
     public void verifyForRestarts(String restart) {
-        BrowserUtils.wait(10);
+        BrowserUtils.wait(2);
         if (!isElementDisplayed(noMatchingInfo)) {
             resultsForRestarts.add(restart + ": Error Number: " + errorInfoNewRelic.getText());
         } else {
             resultsForRestarts.add(restart + " : SUCCESS");
         }
+        System.out.println(resultsForRestarts);
     }
 
     public String getEmailMessageBody() {
@@ -140,20 +154,20 @@ public class SlkPages extends BasePage {
         outlookSubmitButton.click();
         outlookPasswordInputBox.sendKeys("efectura1667");
         outlookSubmitButton.click();
+        BrowserUtils.wait(2);
         outlookSubmitButton.click();
-        BrowserUtils.wait(5);
+        BrowserUtils.wait(4);
     }
 
     public void sendMailForSlk() {
         List<String> emailRecipients = new ArrayList<>();
         emailRecipients.add("beyza.onal@efectura.com");
-        emailRecipients.add("emre.kurt@efectura.com");
-        emailRecipients.add("semanur.gozuacik@efectura.com");
+//        emailRecipients.add("semanur.gozuacik@efectura.com");
         emailRecipients.add("ihsan.dinc@efectura.com");
-        emailRecipients.add("cem@efectura.com");
-        emailRecipients.add("adem.ciftci@efectura.com");
-        emailRecipients.add("cagdas.bakin@efectura.com");
-        emailRecipients.add("onur.coskun@efectura.com");
+//        emailRecipients.add("cem@efectura.com");
+//        emailRecipients.add("adem.ciftci@efectura.com");
+//        emailRecipients.add("cagdas.bakin@efectura.com");
+//        emailRecipients.add("onur.coskun@efectura.com");
         emailRecipients.add("fatih.kara@efectura.com");
 
 
@@ -182,7 +196,9 @@ public class SlkPages extends BasePage {
 
     public void sendGroupMailForSlk() {
 //        denemeMailGroup.click();
-        efecturaMailGroup.click();
+//        efecturaMailGroup.click();
+        goToGroupsButton.click();
+        qaMailGroup.click();
         sendMailLink.click();
 
         outlookMailSubjectInputBox.sendKeys("SLK Environment Controls");
