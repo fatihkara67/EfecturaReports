@@ -14,9 +14,12 @@ Feature: DIA Environment Controls
     Given The user take the menu count
     Given The user login tedarikci screen
     Given Wait tedarik table
-    Given user login to outlook
+    Given The user gets Advice Count
+#    Given The user gets flow counts
+    Given The user sends telegram sms for dia
+#    Given user login to outlook
 #    Given The user sends email for dia
-    Given The user sends group email for dia
+#    Given The user sends group email for dia
 #    Given user log out the mail
 
 

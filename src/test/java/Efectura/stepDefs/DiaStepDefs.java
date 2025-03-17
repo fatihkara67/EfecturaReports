@@ -3,11 +3,18 @@ package Efectura.stepDefs;
 import Efectura.pages.DiaPages;
 import Efectura.utilities.BrowserUtils;
 import Efectura.utilities.ConfigurationReader;
+import Efectura.utilities.Database2;
 import Efectura.utilities.Driver;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.json.JSONException;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,12 +31,12 @@ public class DiaStepDefs extends BaseStep {
 
     @Given("The user login elastic service")
     public void theUserLoginElasticService() {
-        BrowserUtils.wait(8);
+        BrowserUtils.wait(7);
         List<String> services = new ArrayList<>(Arrays.asList("bpm", "itemService", "otpService", "dbConnector", "fletumApi", "fletumWeb", "diaService"));
         for (String service : services) {
             BrowserUtils.wait(2);
             Driver.getDriver().get(ConfigurationReader.getProperty(service));
-            BrowserUtils.wait(6);
+            BrowserUtils.wait(5);
 
             pages.diaPages().verify(service);
         }
@@ -77,7 +84,7 @@ public class DiaStepDefs extends BaseStep {
     @Given("The user open BPM page")
     public void theUserOpenBPMPage() {
         Driver.getDriver().get("https://diageo.efectura.com/Task/TaskList");
-        BrowserUtils.wait(7);
+        BrowserUtils.wait(6);
     }
 
     @Given("The user write {string} in search all filter")
@@ -87,13 +94,13 @@ public class DiaStepDefs extends BaseStep {
 
     @Given("The user take the modul count")
     public void theUserTakeTheModulCount() {
-        BrowserUtils.wait(10);
+        BrowserUtils.wait(9);
         pages.diaPages().takeModulCount();
     }
 
     @Given("The user take the menu count")
     public void theUserTakeTheMenuCount() {
-        BrowserUtils.wait(10);
+        BrowserUtils.wait(9);
         pages.diaPages().takeMenuCount();
     }
 
@@ -124,4 +131,19 @@ public class DiaStepDefs extends BaseStep {
         pages.diaPages().sendGroupEmailForDia();
     }
 
+    @Given("The user sends telegram sms for dia")
+    public void theUserSendsTelegramSmsForDia() {
+        pages.diaPages().sendTelegramSmsForDia();
+    }
+
+    @Given("The user gets Advice Count")
+    public void theUserGetsAdviceCount() {
+        BrowserUtils.wait(2760);
+        pages.diaPages().getAdviceCountt();
+    }
+
+    @Given("The user gets flow counts")
+    public void theUserGetsFlowCounts() throws JSONException {
+        pages.diaPages().getFlowCounts();
+    }
 }

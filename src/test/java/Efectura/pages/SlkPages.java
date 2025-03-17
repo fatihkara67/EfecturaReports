@@ -3,6 +3,7 @@ package Efectura.pages;
 import Efectura.utilities.BrowserUtils;
 import Efectura.utilities.ConfigurationReader;
 import Efectura.utilities.Driver;
+import Efectura.utilities.Pages;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static Efectura.utilities.BrowserUtils.isElementDisplayed;
+
 
 public class SlkPages extends BasePage {
 
@@ -46,10 +48,10 @@ public class SlkPages extends BasePage {
     @FindBy(xpath = "//input[@type='password']")
     private WebElement outlookPasswordInputBox;
 
-    @FindBy(xpath = "//span[text()='Yeni posta']")
+    @FindBy(xpath = "//span[text()='New mail']")
     private WebElement outlookNewMailButton;
 
-    @FindBy(xpath = "//div[@aria-label='Kime']")
+    @FindBy(xpath = "//div[@aria-label='To']")
     private WebElement outlookRecipientsInputBox;
 
     @FindBy(xpath = "(//span[text()='fatih.kara@efectura.com'])[1]")
@@ -61,13 +63,13 @@ public class SlkPages extends BasePage {
     @FindBy(xpath = "(//span[text()='emre.kurt@efectura.com'])[1]")
     private WebElement emreMailOption;
 
-    @FindBy(xpath = "//input[@placeholder='Konu ekleyin']")
+    @FindBy(xpath = "//input[@placeholder='Add a subject']")
     private WebElement outlookMailSubjectInputBox;
 
-    @FindBy(xpath = "//div[@aria-label='İleti gövdesi, çıkmak için Alt+F10’a basın']")
+    @FindBy(xpath = "//div[@aria-label='Message body, press Alt+F10 to exit']")
     private WebElement outlookMailMessageBodyInputBox;
 
-    @FindBy(xpath = "//button[@title='Gönder (Ctrl+Enter)']")
+    @FindBy(xpath = "//button[@title='Send (Ctrl+Enter)']")
     private WebElement outlookEmailSendButton;
 
     @FindBy(xpath = "//*[@id='O365_MainLink_MePhoto']/div/div/div/div/div[2]")
@@ -161,14 +163,15 @@ public class SlkPages extends BasePage {
 
     public void sendMailForSlk() {
         List<String> emailRecipients = new ArrayList<>();
-        emailRecipients.add("beyza.onal@efectura.com");
+        emailRecipients.add("qateam2@groups.outlook.com");
+//        emailRecipients.add("beyza.onal@efectura.com");
 //        emailRecipients.add("semanur.gozuacik@efectura.com");
-        emailRecipients.add("ihsan.dinc@efectura.com");
+//        emailRecipients.add("ihsan.dinc@efectura.com");
 //        emailRecipients.add("cem@efectura.com");
 //        emailRecipients.add("adem.ciftci@efectura.com");
 //        emailRecipients.add("cagdas.bakin@efectura.com");
 //        emailRecipients.add("onur.coskun@efectura.com");
-        emailRecipients.add("fatih.kara@efectura.com");
+//        emailRecipients.add("fatih.kara@efectura.com");
 
 
         for (String recipient : emailRecipients) {
@@ -194,20 +197,37 @@ public class SlkPages extends BasePage {
         BrowserUtils.wait(4);
     }
 
-    public void sendGroupMailForSlk() {
+    public void sendGroupMailForSlk(Pages pages) {
 //        denemeMailGroup.click();
 //        efecturaMailGroup.click();
-        goToGroupsButton.click();
-        qaMailGroup.click();
-        sendMailLink.click();
+        pages.diaPages().getGoToGroupsButton().click();
+//        goToGroupsButton.click();
+        pages.diaPages().getQaMailGroup().click();
+//        qaMailGroup.click();
+        pages.diaPages().getSendMailLink().click();
+//        sendMailLink.click();
 
-        outlookMailSubjectInputBox.sendKeys("SLK Environment Controls");
-        outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBody());
-        outlookMailMessageBodyInputBox.sendKeys("--------------------------------------------\n");
+        pages.diaPages().getOutlookMailSubjectInputBox().sendKeys("SLK Environment Controls");
+//        outlookMailSubjectInputBox.sendKeys("SLK Environment Controls");
+        pages.diaPages().getOutlookMailMessageBodyInputBox().sendKeys(getEmailMessageBody());
+//        outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBody());
+        pages.diaPages().getOutlookMailMessageBodyInputBox().sendKeys("--------------------------------------------\n");
+//        outlookMailMessageBodyInputBox.sendKeys("--------------------------------------------\n");
         BrowserUtils.wait(1);
-        outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBodyForRestarts());
+        pages.diaPages().getOutlookMailMessageBodyInputBox().sendKeys(getEmailMessageBodyForRestarts());
+//        outlookMailMessageBodyInputBox.sendKeys(getEmailMessageBodyForRestarts());
         System.out.println(getEmailMessageBodyForRestarts());
-        outlookEmailSendButton.click();
+        pages.diaPages().getOutlookEmailSendButton().click();
+//        outlookEmailSendButton.click();
         BrowserUtils.wait(2);
+    }
+
+    public void sendTelegramSmsForSlk() {
+        String result = "SLK Environment Controls\n" + getEmailMessageBody() + "--------\n" + getEmailMessageBodyForRestarts();
+//        BrowserUtils.sendMessageToTelegram(result,"-1002156506449");
+        BrowserUtils.sendMessageToTelegram(result,"-4194828120");
+//        BrowserUtils.sendMessageToTelegram("SLK Environment Controls","-4194828120");
+//        BrowserUtils.sendMessageToTelegram(getEmailMessageBody(),"-4194828120");
+//        BrowserUtils.sendMessageToTelegram(getEmailMessageBodyForRestarts(),"-4194828120");
     }
 }

@@ -1,6 +1,8 @@
 package Efectura.utilities;
 
 import org.apache.commons.io.FileUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -8,8 +10,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.Date;
 import java.util.NoSuchElementException;
 
@@ -336,6 +342,163 @@ public class BrowserUtils {
         Select select = new Select(selectElement);
         return select.getFirstSelectedOption().getAttribute("value").equals(value);
     }
+
+
+    private static final String SELDON_API_TOKEN = "perm:ZmF0aWgua2FyYQ==.NjgtMg==.YEqj0eDVyQ9kLm579EOehZIHEzQzDE";
+    private static final String TELEGRAM_BOT_TOKEN = "6538211561:AAEVRYoo03lBKnqhTUUU3lne9nfvpRGHa08";
+    private static final String TELEGRAM_CHAT_ID = "-4194828120";
+
+    // Dosyayı Telegram'a gönderme
+    public static void sendToTelegram(String filePath) {
+        try {
+            // Telegram API URL
+            URL url = new URL("https://api.telegram.org/bot" + TELEGRAM_BOT_TOKEN + "/sendDocument");
+
+            // HttpURLConnection nesnesi oluşturuluyor
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+
+            // Multipart form-data gönderimi
+            String boundary = "===" + System.currentTimeMillis() + "===";
+            connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+
+            try (OutputStream outputStream = connection.getOutputStream();
+                 PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"))) {
+
+                // Form verilerini yazıyoruz (chat_id)
+                writer.append("--" + boundary).append("\r\n");
+                writer.append("Content-Disposition: form-data; name=\"chat_id\"").append("\r\n");
+                writer.append("Content-Type: text/plain; charset=UTF-8").append("\r\n");
+                writer.append("\r\n");
+                writer.append(TELEGRAM_CHAT_ID).append("\r\n");
+
+                // Dosyayı yazıyoruz
+                writer.append("--" + boundary).append("\r\n");
+                writer.append("Content-Disposition: form-data; name=\"document\"; filename=\"" + new File(filePath).getName() + "\"").append("\r\n");
+                writer.append("Content-Type: application/octet-stream").append("\r\n");
+                writer.append("\r\n");
+                writer.flush();
+                Files.copy(new File(filePath).toPath(), outputStream);
+                outputStream.flush();
+
+                // Formun sonunu belirtiyoruz
+                writer.append("\r\n");
+                writer.append("--" + boundary + "--").append("\r\n");
+                writer.flush();
+            }
+
+            // Yanıtı kontrol ediyoruz
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                System.out.println("File " + filePath + " sent to Telegram successfully.");
+            } else {
+                System.out.println("Failed to send " + filePath + " to Telegram. Status Code: " + responseCode);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void sendMessageToTelegram(String message, String chatId) {
+        try {
+            // Telegram API URL
+            String urlString = "https://api.telegram.org/bot" + TELEGRAM_BOT_TOKEN + "/sendMessage";
+
+            // URL bağlantısı oluştur
+            URL url = new URL(urlString);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            connection.setDoOutput(true);
+
+            // Mesajı JSON formatında gönderme
+            String postData = "chat_id=" + URLEncoder.encode(chatId, "UTF-8") +
+                    "&text=" + URLEncoder.encode(message, "UTF-8");
+
+            try (OutputStream outputStream = connection.getOutputStream()) {
+                outputStream.write(postData.getBytes(StandardCharsets.UTF_8));
+                outputStream.flush();
+            }
+
+            // Yanıtı kontrol et
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                System.out.println("Message sent to Telegram successfully: " + message);
+            } else {
+                System.out.println("Failed to send message to Telegram. Status Code: " + responseCode);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static JSONObject executeCurl(String curlCommand) throws JSONException {
+        StringBuilder output = new StringBuilder();
+        try {
+            String os = System.getProperty("os.name").toLowerCase();
+            ProcessBuilder processBuilder;
+
+            if (os.contains("win")) {
+                processBuilder = new ProcessBuilder("cmd.exe", "/c", curlCommand);
+            } else {
+                processBuilder = new ProcessBuilder("bash", "-c", curlCommand);
+            }
+
+            Process process = processBuilder.start();
+
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    output.append(line);
+                }
+            }
+
+            int exitCode = process.waitFor();
+            if (exitCode != 0) {
+                throw new RuntimeException("Curl command failed with exit code " + exitCode);
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error executing curl command", e);
+        }
+
+        return new JSONObject(output.toString());
+    }
+
+    public static JSONObject getRecordsFiltered(String flowName, String cookie) {
+        try {
+            URL obj = new URL("https://diageo.efectura.com/Task/GetActiveUserTask");
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+            con.setRequestProperty("Cookie", cookie);
+
+            // Gönderilecek veri
+            con.setDoOutput(true);
+            String postData = "length=1&AnySearch=" + flowName;
+            con.getOutputStream().write(postData.getBytes(StandardCharsets.UTF_8));
+
+            // Yanıtı oku
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            // JSON Parse işlemi
+            JSONObject json = new JSONObject(response.toString());
+            return json;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Hata oluştu: " + e.getMessage());
+
+        }
+        return null;
+    }
+
 
 }
 

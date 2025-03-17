@@ -42,6 +42,13 @@ public class Driver {
                     //     chromeOptions.setBinary("C:\\Users\\Sema\\Desktop\\PROGRAMLAR\\SELENİUM\\");
                     chromeOptions.addArguments("--disable-cache");
                     chromeOptions.addArguments("--start-maximized");
+
+                    chromeOptions.addArguments("--headless");
+//                    chromeOptions.addArguments("--disable-blink-features=AutomationControlled");
+                    chromeOptions.addArguments("--window-size=1920,1080");
+//                    chromeOptions.addArguments("--disable-gpu");
+//                    chromeOptions.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
+//                    chromeOptions.setExperimentalOption("useAutomationExtension", false);
                     driverPool.set(new ChromeDriver(chromeOptions));
                     break;
                 case "firefox":

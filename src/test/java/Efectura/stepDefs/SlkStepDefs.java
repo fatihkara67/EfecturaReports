@@ -89,7 +89,7 @@ public class SlkStepDefs extends BaseStep {
 
     @Given("user send group mail for slk")
     public void userSendGroupMailForSlk() {
-        pages.slkPages().sendGroupMailForSlk();
+        pages.slkPages().sendGroupMailForSlk(pages);
     }
 
     @Given("The user looks SLK log errors")
@@ -115,5 +115,10 @@ public class SlkStepDefs extends BaseStep {
 //            BrowserUtils.wait(1);
             pages.slkPages().verify(service);
         }
+    }
+
+    @Given("The user sends telegram sms for slk")
+    public void theUserSendsTelegramSmsForSlk() {
+        pages.slkPages().sendTelegramSmsForSlk();
     }
 }
