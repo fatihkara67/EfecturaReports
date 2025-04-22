@@ -207,6 +207,7 @@ public class DiaPages extends BasePage {
     }
 
     public void searchFor(String searchFlow) {
+        BrowserUtils.wait(2);
         searchFilterFlow.sendKeys(searchFlow);
         BrowserUtils.wait(3);
     }
@@ -250,6 +251,7 @@ public class DiaPages extends BasePage {
     String result;
     public void waitTedarikciTable() {
         BrowserUtils.waitForVisibility(taskListTedarikci, 30);
+//        BrowserUtils.captureScreenshot(driver,"src/test/resources/data/screenshot2.png");
         if (taskListTedarikci.isDisplayed()){
             result = "Tedarikçi Ekran Kontrolü: OK";
         }else {
@@ -385,6 +387,7 @@ public class DiaPages extends BasePage {
     public void sendTelgramSmsForMm() {
         String result = "MM Service Controls\n" + getEmailMessageBody();
         BrowserUtils.sendMessageToTelegram(result,"-4194828120");
+//        BrowserUtils.sendMessageToTelegram(result,"-1002156506449");
 //        BrowserUtils.sendMessageToTelegram("MM Service Controls","-4194828120");
 //        BrowserUtils.sendMessageToTelegram(getEmailMessageBody(),"-4194828120");
 
@@ -402,11 +405,12 @@ public class DiaPages extends BasePage {
 
 
     public static String getAdviceCount() {
-        String query = "SELECT Baslangictarihi, COUNT(DISTINCT Musterikriter) as AdviceCount\n" +
-                "                FROM my_database.OneriSiparis\n" +
-                "                GROUP BY Baslangictarihi\n" +
-                "                ORDER BY Baslangictarihi DESC\n" +
-                "                LIMIT 1";
+        String query = """
+                SELECT Baslangictarihi, COUNT(DISTINCT Musterikriter) as AdviceCount
+                                FROM my_database.OneriSiparis
+                                GROUP BY Baslangictarihi
+                                ORDER BY Baslangictarihi DESC
+                                LIMIT 1""";
 
 
         String adviceCounts = "";

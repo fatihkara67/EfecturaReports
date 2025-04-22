@@ -1,6 +1,9 @@
 package Efectura.utilities;
 
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
 import org.apache.commons.io.FileUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
@@ -432,6 +435,97 @@ public class BrowserUtils {
             e.printStackTrace();
         }
     }
+
+
+
+    public static void sendFileToTelegram(String filePath, String chatId) {
+        String boundary = "===" + System.currentTimeMillis() + "===";
+        String LINE_FEED = "\r\n";
+
+        try {
+            String urlString = "https://api.telegram.org/bot" + TELEGRAM_BOT_TOKEN + "/sendDocument";
+            URL url = new URL(urlString);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            connection.setUseCaches(false);
+            connection.setDoOutput(true); // POST yapacağımız için
+            connection.setDoInput(true);
+            connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+            connection.setRequestMethod("POST");
+
+            try (OutputStream outputStream = connection.getOutputStream();
+                 PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), true)) {
+
+                // chat_id ekle
+                writer.append("--").append(boundary).append(LINE_FEED);
+                writer.append("Content-Disposition: form-data; name=\"chat_id\"").append(LINE_FEED);
+                writer.append("Content-Type: text/plain; charset=UTF-8").append(LINE_FEED);
+                writer.append(LINE_FEED).append(chatId).append(LINE_FEED);
+                writer.flush();
+
+                // Dosya ekle
+                File uploadFile = new File(filePath);
+                String fileName = uploadFile.getName();
+                writer.append("--").append(boundary).append(LINE_FEED);
+                writer.append("Content-Disposition: form-data; name=\"document\"; filename=\"").append(fileName).append("\"").append(LINE_FEED);
+                writer.append("Content-Type: application/octet-stream").append(LINE_FEED);
+                writer.append(LINE_FEED);
+                writer.flush();
+
+                // Dosyayı byte olarak gönder
+                try (FileInputStream inputStream = new FileInputStream(uploadFile)) {
+                    byte[] buffer = new byte[4096];
+                    int bytesRead;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    outputStream.flush();
+                }
+
+                writer.append(LINE_FEED).flush();
+                writer.append("--").append(boundary).append("--").append(LINE_FEED);
+                writer.close();
+            }
+
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                System.out.println("File sent to Telegram successfully: " + filePath);
+            } else {
+                System.out.println("Failed to send file to Telegram. Status Code: " + responseCode);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+    public static void captureScreenshot(WebDriver driver, String filePath) {
+        // ChromeDriver'ın yolunu ayarla
+        System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
+
+
+        try {
+            // Sayfaya git
+            driver.get("https://www.example.com");
+
+            // Ekran görüntüsünü al
+            File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+
+            // Ekran görüntüsünü kaydet
+            File destFile = new File(filePath);
+            Files.copy(screenshot.toPath(), destFile.toPath());
+
+            System.out.println("Ekran görüntüsü alındı ve kaydedildi: " + filePath);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public static JSONObject executeCurl(String curlCommand) throws JSONException {
         StringBuilder output = new StringBuilder();
         try {
@@ -497,6 +591,84 @@ public class BrowserUtils {
 
         }
         return null;
+    }
+
+
+    public static JSONArray getItemsByType(String itemType) throws JSONException {
+        String sessionId = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyNzA5Njg1My03YjAyLTQ4NGEtYTVjMy0zNDliOTVkMzIwYmMiLCJqdGkiOiJkZDI1Yjc5Ny1lNTBlLTRhODEtYTBjNS1hNDA3MDEwNjFmZmEiLCJuYW1lIjoiZjc3N2EyOTgtOTQyZC00NjU4LThlY2EtMzMwNDg2ZDYzMjcxXzU0NjExNDY3MTYiLCJpYXQiOiIwNC8wNC8yMDI1IDA3OjUyOjA5IiwibmJmIjoxNzQzNzUzMTI5LCJleHAiOjE3NDM3ODMxMjl9.FjY8LWq9V3POofaFmXd-S2e7vPTWpS63AKxvq-O_bis";
+
+        // İstek body’sini JSON olarak oluştur
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("itemType", itemType);
+
+        JSONObject dynamicFilters = new JSONObject();
+        dynamicFilters.put("ItemStatuses", 5);
+        requestBody.put("dynamicFilters", dynamicFilters);
+        requestBody.put("pageSize", 20);
+
+        // REST isteği
+        Response response = RestAssured.given()
+                .baseUri("https://fletum-sis-staging.silktech.ge")
+                .basePath("/Item/GetItems")
+                .header("SessionId", sessionId)
+                .header("Content-Type", "application/json")
+                .body(requestBody.toString())
+                .post();
+
+        // Status code kontrolü yapılabilir
+        if (response.statusCode() == 200) {
+            // JSON olarak döndür
+            return new JSONArray(response.getBody().asString());
+        } else {
+            throw new RuntimeException("Request failed: " + response.statusCode() + " - " + response.getBody().asString());
+        }
+    }
+
+    // JavaScript kullanarak zoom seviyesini %80 yap
+    public static void adjustScreenSize(int size, WebDriver driver) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("document.body.style.zoom='" + size + "%'");
+    }
+
+    public static void scrollToElement(WebDriver driver, WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        // Elementi hem yatayda hem dikeyde görünür hale getirir
+        js.executeScript("arguments[0].scrollIntoView(true);", element);
+    }
+
+    public static boolean deleteFile(String filePath) {
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            return file.delete();
+        } else {
+            System.out.println("Dosya bulunamadı: " + filePath);
+            return false;
+        }
+    }
+
+    public static boolean deleteFileOrDirectory(String filePath) {
+        File file = new File(filePath);
+
+        if (!file.exists()) {
+            System.out.println("Dosya veya klasör bulunamadı: " + file.getAbsolutePath());
+            return false;
+        }
+
+        if (file.isDirectory()) {
+            File[] children = file.listFiles();
+            if (children != null) {
+                for (File child : children) {
+                    deleteFileOrDirectory(child.getAbsolutePath());
+                }
+            }
+        }
+
+        boolean deleted = file.delete();
+        if (!deleted) {
+            System.out.println("Silinemedi: " + file.getAbsolutePath());
+        }
+        return deleted;
     }
 
 

@@ -1,26 +1,16 @@
 package Efectura.stepDefs;
 
-import Efectura.pages.DiaPages;
 import Efectura.utilities.BrowserUtils;
 import Efectura.utilities.ConfigurationReader;
-import Efectura.utilities.Database2;
 import Efectura.utilities.Driver;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.json.JSONException;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static Efectura.utilities.BrowserUtils.isElementDisplayed;
-
 
 public class DiaStepDefs extends BaseStep {
 
@@ -138,7 +128,7 @@ public class DiaStepDefs extends BaseStep {
 
     @Given("The user gets Advice Count")
     public void theUserGetsAdviceCount() {
-        BrowserUtils.wait(2760);
+//        BrowserUtils.wait(6600);
         pages.diaPages().getAdviceCountt();
     }
 

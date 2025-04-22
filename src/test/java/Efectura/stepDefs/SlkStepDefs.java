@@ -5,6 +5,7 @@ import Efectura.utilities.ConfigurationReader;
 import Efectura.utilities.Driver;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
+import org.json.JSONException;
 import org.openqa.selenium.Keys;
 
 import java.util.ArrayList;
@@ -120,5 +121,21 @@ public class SlkStepDefs extends BaseStep {
     @Given("The user sends telegram sms for slk")
     public void theUserSendsTelegramSmsForSlk() {
         pages.slkPages().sendTelegramSmsForSlk();
+    }
+
+    @Given("The user gets GetApps response")
+    public void theUserGetsGetAppsResponse() {
+        pages.slkPages().getGetAppsResponse("https://fletum-cep-module-staging.silktech.ge/GetApps?isActive=true");
+//        pages.slkPages().sendGetRequest("https://fletum-cep-module-staging.silktech.ge/GetApps?isActive=true");
+    }
+
+    @Given("The user looks for pods")
+    public void theUserLooksForPods() {
+        pages.slkPages().lookForPods();
+    }
+
+    @Given("The user gets active {string} count")
+    public void theUserGetsActiveCount(String itemType) throws JSONException {
+        pages.slkPages().getActiveCampaignCount(itemType);
     }
 }
