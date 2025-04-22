@@ -8,12 +8,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static Efectura.utilities.BrowserUtils.isElementDisplayed;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
