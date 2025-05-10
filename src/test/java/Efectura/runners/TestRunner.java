@@ -16,7 +16,7 @@ import java.util.List;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        // Test sonuçlarının raporlanmasını sağlayan Cucumber ayarlarI
+        // Test sonuçlarının raporlanmasını sağlayan Cucumber ayarları
         plugin = {
                 "pretty",
                 "html:target/cucumber-reports/cucumber.html",

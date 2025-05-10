@@ -129,7 +129,7 @@ public class SlkPages extends BasePage {
 
     List<String> results = new ArrayList<>();
     public void verify(String service) {
-        BrowserUtils.wait(2);
+        BrowserUtils.wait(3);
         if (!isElementDisplayed(noMatchingInfo)) {
             results.add(service + ": Error Number: " + errorInfoNewRelic.getText());
         } else {
@@ -297,7 +297,7 @@ public class SlkPages extends BasePage {
         Driver.getDriver().get("https://kube.silktech.ge/dashboard/c/local/explorer/pod");
         BrowserUtils.waitForVisibility(yamlElement,30);
 
-        podsPath = BrowserUtils.getScreenshot("src/test/resources/data/screenshot3.png");
+        podsPath = BrowserUtils.getScreenshot("src/test/resources/data/rancher.png");
 
         boolean matchForSuccess = rancherSuccessStates.stream().allMatch(el -> el.getText().contains("Running"));
         boolean matchForReady = rancherReadyStates.stream().allMatch(el -> el.getText().contains("1/1"));
