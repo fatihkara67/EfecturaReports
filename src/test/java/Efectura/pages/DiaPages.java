@@ -398,9 +398,6 @@ public class DiaPages extends BasePage {
                 + getEmailMessageBody() + "------------------------\n" + getEmailMessageBodyForFlow();
         BrowserUtils.sendMessageToTelegram(result,"-4194828120");
 //        BrowserUtils.sendMessageToTelegram(result,"-1002156506449");
-//        BrowserUtils.sendMessageToTelegram("Environment Elastic, Flows And Tedarik Screen Control","-4194828120");
-//        BrowserUtils.sendMessageToTelegram(getEmailMessageBody(),"-4194828120");
-//        BrowserUtils.sendMessageToTelegram(getEmailMessageBodyForFlow(),"-4194828120");
     }
 
 
@@ -426,7 +423,7 @@ public class DiaPages extends BasePage {
                 int countValue = rs.getInt("AdviceCount");
 
                 // Sonucu "tarih --- sayı" formatında ekle
-                adviceCounts = "Öneri Sayıları: " + baslangicTarihi + " --- " + countValue;
+                adviceCounts = "Öneri Sayıları: " + baslangicTarihi.split(" ")[0] + " --- " + countValue;
 //                adviceCounts.append(baslangicTarihi).append(" --- ").append(countValue).append("\n");
             }
         } catch (SQLException e) {
