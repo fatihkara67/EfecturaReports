@@ -67,7 +67,7 @@ public class SlkStepDefs extends BaseStep {
 //            BrowserUtils.wait(1);
             pages.slkPages().verifyForRestarts(restart);
         }
-        
+
     }
 
     @When("user login to outlook")
