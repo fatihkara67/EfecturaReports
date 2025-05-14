@@ -129,7 +129,7 @@ public class SlkPages extends BasePage {
 
     List<String> results = new ArrayList<>();
     public void verify(String service) {
-        BrowserUtils.wait(3);
+        BrowserUtils.wait(5);
         if (!isElementDisplayed(noMatchingInfo)) {
             results.add(service + ": Error Number: " + errorInfoNewRelic.getText());
         } else {
