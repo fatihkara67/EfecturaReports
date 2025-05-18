@@ -427,9 +427,9 @@ public class BrowserUtils {
             // Yanıtı kontrol et
             int responseCode = connection.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                System.out.println("Message sent to Telegram successfully: " + message);
+                System.out.println("Message sent to Telegram successfully: \n" + message);
             } else {
-                System.out.println("Failed to send message to Telegram. Status Code: " + responseCode);
+                System.out.println("Failed to send message to Telegram. Status Code: \n" + responseCode);
             }
         } catch (IOException e) {
             e.printStackTrace();
