@@ -104,7 +104,8 @@ public class SlkStepDefs extends BaseStep {
         for (String service : slkServices) {
 //            BrowserUtils.wait(5);
 //            pages.slkPages().newrelicInputBox.clear();
-            BrowserUtils.wait(1);
+            BrowserUtils.wait(3);
+            BrowserUtils.waitForVisibility(pages.slkPages().newrelicInputBox,60);
             pages.slkPages().newrelicInputBox.sendKeys(Keys.CONTROL + "a");
             pages.slkPages().newrelicInputBox.sendKeys(Keys.DELETE);
 //            BrowserUtils.wait(1);
