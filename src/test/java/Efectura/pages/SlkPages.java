@@ -19,7 +19,7 @@ import java.net.URL;
 
 public class SlkPages extends BasePage {
 
-    @FindBy(xpath = "//div[2]/div/div/span/div/div[1]/div/input")
+    @FindBy(xpath = "//div/div[2]/div/div[1]/div/div/span/div/div[2]/div/input")
     public WebElement newrelicInputBox;
 
     @FindBy(xpath = "//span[contains(text(),'Query logs')]")
@@ -120,7 +120,8 @@ public class SlkPages extends BasePage {
         submitNewRelic.click();
         passwordNewRelic.sendKeys(ConfigurationReader.getProperty("newRelicPassword"));
         submitNewRelic.click();
-        BrowserUtils.wait(5);
+        BrowserUtils.wait(10);
+        BrowserUtils.waitForVisibility(endNewRelic,30);
         endNewRelic.click();
         BrowserUtils.wait(2);
         submitNewRelic.click();
@@ -295,7 +296,7 @@ public class SlkPages extends BasePage {
         //----
         BrowserUtils.wait(2);
         Driver.getDriver().get("https://kube.silktech.ge/dashboard/c/local/explorer/pod");
-        BrowserUtils.waitForVisibility(yamlElement,30);
+        BrowserUtils.waitForVisibility(yamlElement,120);
 
         podsPath = BrowserUtils.getScreenshot("src/test/resources/data/rancher.png");
 
