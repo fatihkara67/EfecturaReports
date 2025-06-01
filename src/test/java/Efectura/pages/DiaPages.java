@@ -136,7 +136,7 @@ public class DiaPages extends BasePage {
     @FindBy(xpath = "//span[contains(text(),'Send email')]")
     private WebElement sendMailLink;
 
-    @FindBy(xpath = "//p[contains(text(),'couldn't log you in')]")
+    @FindBy(xpath = "//p[contains(text(),\"We couldn't log you in. Please try again.\")]")
     private static WebElement couldNotLoginText;
     //-----------------------------------------------------------------------------------
 
@@ -396,8 +396,8 @@ public class DiaPages extends BasePage {
     public void sendTelegramSmsForDia() {
         String result = "Environment Elastic, Flows And Tedarik Screen Control\n"
                 + getEmailMessageBody() + "------------------------\n" + getEmailMessageBodyForFlow();
-        BrowserUtils.sendMessageToTelegram(result,"-4194828120");
-//        BrowserUtils.sendMessageToTelegram(result,"-1002156506449");
+//        BrowserUtils.sendMessageToTelegram(result,"-4194828120");
+        BrowserUtils.sendMessageToTelegram(result,"-1002156506449");
     }
 
 
@@ -450,5 +450,9 @@ public class DiaPages extends BasePage {
         menuCount = getFlowCount("MENU");
 
 
+    }
+
+    public void setMessage() {
+        results.add("Elastic'e Giriş Yapılamadı");
     }
 }

@@ -21,15 +21,20 @@ public class DiaStepDefs extends BaseStep {
 
     @Given("The user login elastic service")
     public void theUserLoginElasticService() {
-        BrowserUtils.wait(7);
-        List<String> services = new ArrayList<>(Arrays.asList("bpm", "itemService", "otpService", "dbConnector", "fletumApi", "fletumWeb", "diaService"));
-        for (String service : services) {
-            BrowserUtils.wait(2);
-            Driver.getDriver().get(ConfigurationReader.getProperty(service));
-            BrowserUtils.wait(5);
+        if (pages.diaPages().getCouldNotLoginText().isDisplayed()) {
+            pages.diaPages().setMessage();
+        } else  {
+            BrowserUtils.wait(7);
+            List<String> services = new ArrayList<>(Arrays.asList("bpm", "itemService", "otpService", "dbConnector", "fletumApi", "fletumWeb", "diaService"));
+            for (String service : services) {
+                BrowserUtils.wait(2);
+                Driver.getDriver().get(ConfigurationReader.getProperty(service));
+                BrowserUtils.wait(5);
 
-            pages.diaPages().verify(service);
+                pages.diaPages().verify(service);
+            }
         }
+
     }
 
     @Given("user go to mail")
