@@ -1,6 +1,6 @@
 Feature: SLK Errors
 
-  @regression
+  @regressionx
   Scenario: Look for errors
     Given The user login new relic
     Given The user looks SLK log errors

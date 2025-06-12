@@ -13,17 +13,23 @@ public class MMStepDefs extends BaseStep {
 
     @Given("The user look elastic service for mm")
     public void theUserLookElasticServiceForMm() {
-        BrowserUtils.wait(7);
-        List<String> services = new ArrayList<>(Arrays.asList(
-                "mmFletumApi", "mmFletumWeb", "mmSchedulerService", "mmValidationService",
-                "mmItemService", "mmIdentityService", "mmOtpService",
-                "mmBpmService", "mmMMService","mmDbConnector"
-        ));
-        for (String service : services) {
-            BrowserUtils.wait(2);
-            Driver.getDriver().get(ConfigurationReader.getProperty(service));
-            BrowserUtils.wait(5);
-            pages.diaPages().verify(service);
+
+        if (BrowserUtils.isElementDisplayed(pages.diaPages().getCouldNotLoginText())) {
+            pages.diaPages().setMessage();
+        }else {
+            BrowserUtils.wait(7);
+            List<String> services = new ArrayList<>(Arrays.asList(
+                    "mmFletumApi", "mmFletumWeb", "mmSchedulerService", "mmValidationService",
+                    "mmItemService", "mmIdentityService", "mmOtpService",
+                    "mmBpmService", "mmMMService","mmDbConnector"
+            ));
+            for (String service : services) {
+                BrowserUtils.wait(2);
+                Driver.getDriver().get(ConfigurationReader.getProperty(service));
+                BrowserUtils.wait(5);
+                BrowserUtils.waitForVisibility(pages.diaPages().getRefreshButton(), 30);
+                pages.diaPages().verify(service);
+            }
         }
     }
 

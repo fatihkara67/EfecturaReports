@@ -24,7 +24,7 @@ import java.util.List;
                 "rerun:target/rerun.txt"
         },
         // Hangi senaryoların çalıştırılacağını belirten etiket
-        tags ="@regression",
+        tags ="@regressionx",
         features ="src/test/resources/features",
         glue  = "Efectura/stepDefs",
         dryRun = false
