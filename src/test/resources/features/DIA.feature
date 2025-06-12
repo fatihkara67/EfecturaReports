@@ -1,7 +1,7 @@
 
 Feature: DIA Environment Controls
 
-  @regressionx
+  @regression
   Scenario: Look for errors
     Given The user login elastic
     Given The user login elastic service
@@ -14,6 +14,8 @@ Feature: DIA Environment Controls
     Given The user login tedarikci screen
     Given Wait tedarik table
     Given The user gets Advice Count
+    Given The user gets oneri siparis date
+    Given The user gets OneriSiparis_Results
     Given The user sends telegram sms for dia
 
 
