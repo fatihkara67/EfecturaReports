@@ -120,6 +120,9 @@ public class DiaPages extends BasePage {
     @FindBy(xpath = "//a[@id='impersonate-fletum']")
     private WebElement impersonateFletumButton;
 
+    @FindBy(xpath = "//button[contains(.,'Refresh')]")
+    private WebElement refreshButton;
+
     //------------------------------------------------------------------------------
     @FindBy(xpath = "//span[contains(text(),'Efectura-QA')]")
     private WebElement efecturaMailGroup;
@@ -155,6 +158,8 @@ public class DiaPages extends BasePage {
 
     List<String> results = new ArrayList<>();
     public void verify(String service) {
+        BrowserUtils.adjustScreenSize(70,Driver.getDriver());
+        BrowserUtils.wait(1);
         if (!isElementDisplayed(noMatchingInfo)) {
             results.add(service + ": Error Number: " + numberOfFilteredData.getText());
         } else {
@@ -396,8 +401,8 @@ public class DiaPages extends BasePage {
     public void sendTelegramSmsForDia() {
         String result = "Environment Elastic, Flows And Tedarik Screen Control\n"
                 + getEmailMessageBody() + "------------------------\n" + getEmailMessageBodyForFlow();
-//        BrowserUtils.sendMessageToTelegram(result,"-4194828120");
-        BrowserUtils.sendMessageToTelegram(result,"-1002156506449");
+        BrowserUtils.sendMessageToTelegram(result,"-4194828120");
+//        BrowserUtils.sendMessageToTelegram(result,"-1002156506449");
     }
 
 

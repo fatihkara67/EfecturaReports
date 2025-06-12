@@ -21,7 +21,8 @@ public class DiaStepDefs extends BaseStep {
 
     @Given("The user login elastic service")
     public void theUserLoginElasticService() {
-        if (pages.diaPages().getCouldNotLoginText().isDisplayed()) {
+
+        if (BrowserUtils.isElementDisplayed(pages.diaPages().getCouldNotLoginText())) {
             pages.diaPages().setMessage();
         } else  {
             BrowserUtils.wait(7);

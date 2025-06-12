@@ -14,7 +14,7 @@ public class MMStepDefs extends BaseStep {
     @Given("The user look elastic service for mm")
     public void theUserLookElasticServiceForMm() {
 
-        if (pages.diaPages().getCouldNotLoginText().isDisplayed()) {
+        if (BrowserUtils.isElementDisplayed(pages.diaPages().getCouldNotLoginText())) {
             pages.diaPages().setMessage();
         }else {
             BrowserUtils.wait(7);
@@ -27,6 +27,7 @@ public class MMStepDefs extends BaseStep {
                 BrowserUtils.wait(2);
                 Driver.getDriver().get(ConfigurationReader.getProperty(service));
                 BrowserUtils.wait(5);
+                BrowserUtils.waitForVisibility(pages.diaPages().getRefreshButton(), 30);
                 pages.diaPages().verify(service);
             }
         }

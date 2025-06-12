@@ -43,7 +43,7 @@ public class Driver {
                     chromeOptions.addArguments("--disable-cache");
                     chromeOptions.addArguments("--start-maximized");
 
-                    chromeOptions.addArguments("--headless");
+//                    chromeOptions.addArguments("--headless");
 //                    chromeOptions.addArguments("--disable-blink-features=AutomationControlled");
                     chromeOptions.addArguments("--window-size=1920,1080");
 //                    chromeOptions.addArguments("--disable-gpu");
