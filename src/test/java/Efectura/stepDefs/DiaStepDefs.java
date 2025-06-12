@@ -26,7 +26,8 @@ public class DiaStepDefs extends BaseStep {
             pages.diaPages().setMessage();
         } else  {
             BrowserUtils.wait(7);
-            List<String> services = new ArrayList<>(Arrays.asList("bpm", "itemService", "otpService", "dbConnector", "fletumApi", "fletumWeb", "diaService"));
+            List<String> services = new ArrayList<>(Arrays.asList
+                    ("bpm", "itemService", "otpService", "dbConnector", "fletumApi", "fletumWeb", "diaService"));
             for (String service : services) {
                 BrowserUtils.wait(2);
                 Driver.getDriver().get(ConfigurationReader.getProperty(service));
@@ -34,6 +35,11 @@ public class DiaStepDefs extends BaseStep {
 
                 pages.diaPages().verify(service);
             }
+            Driver.getDriver().get(ConfigurationReader.getProperty("SendOrderRecommendations"));
+            BrowserUtils.wait(5);
+
+            pages.diaPages().verifyNotErrorLogs("SendOrderRecommendations");
+
         }
 
     }
@@ -141,5 +147,15 @@ public class DiaStepDefs extends BaseStep {
     @Given("The user gets flow counts")
     public void theUserGetsFlowCounts() throws JSONException {
         pages.diaPages().getFlowCounts();
+    }
+
+    @Given("The user gets oneri siparis date")
+    public void theUserGetsOneriSiparisDate() {
+        pages.diaPages().getOneriSiparisDate();
+    }
+
+    @Given("The user gets OneriSiparis_Results")
+    public void theUserGetsOneriSiparis_Results() {
+        pages.diaPages().getOneriSiparisResults();
     }
 }

@@ -129,7 +129,7 @@ public class SlkPages extends BasePage {
         emailNewRelic.sendKeys(ConfigurationReader.getProperty("newRelicUserName"));
         submitNewRelic.click();
         passwordNewRelic.sendKeys(ConfigurationReader.getProperty("newRelicPassword"));
-        BrowserUtils.adjustScreenSize(70,Driver.getDriver());
+//        BrowserUtils.adjustScreenSize(70,Driver.getDriver());
         submitNewRelic.click();
         BrowserUtils.wait(5);
         BrowserUtils.waitForVisibility(endNewRelic,30);
@@ -324,7 +324,12 @@ public class SlkPages extends BasePage {
         Driver.getDriver().get("https://kube.silktech.ge/dashboard/c/local/explorer/pod");
         BrowserUtils.waitForVisibility(yamlElement,120);
 
-        podsPath = BrowserUtils.getScreenshot("src/test/resources/data/rancher.png");
+        BrowserUtils.wait(1);
+//        BrowserUtils.adjustScreenSize(50,driver);
+        Driver.getDriver().manage().window().maximize();
+        BrowserUtils.wait(1);
+        podsPath = BrowserUtils.getFullPageScreenshot("rancher");
+        System.out.println("podsPath --> " + podsPath);
 
         boolean matchForSuccess = rancherSuccessStates.stream().allMatch(el -> el.getText().contains("Running"));
         boolean matchForReady = rancherReadyStates.stream().allMatch(el -> el.getText().contains("1/1"));
@@ -395,7 +400,7 @@ public class SlkPages extends BasePage {
         if(duplicateBirthdateCount > 0) {
             duplicateBirthdateResult += "FAIL: \n" + duplicateBirthdateDetails;
         } else {
-            duplicateBirthdateResult += "SUCCESS: Query Boş Döndü";
+            duplicateBirthdateResult += "SUCCESS: QueryBoşDöndü";
         }
     }
 
@@ -443,7 +448,7 @@ public class SlkPages extends BasePage {
         if(multipleMembershipCount > 0) {
             multipleMembershipResult += "FAIL: \n" + multipleMembershipDetails;
         } else {
-            multipleMembershipResult += "SUCCESS: Query Boş Döndü";
+            multipleMembershipResult += "SUCCESS: QueryBoşDöndü";
         }
 
 

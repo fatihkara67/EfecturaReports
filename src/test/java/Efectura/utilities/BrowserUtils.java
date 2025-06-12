@@ -12,7 +12,11 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.yandex.qatools.ashot.AShot;
+import ru.yandex.qatools.ashot.Screenshot;
+import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
 
+import javax.imageio.ImageIO;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -61,6 +65,29 @@ public class BrowserUtils {
 
         return path;
     }
+
+    public static String getFullPageScreenshot(String name) {
+        name = new Date().toString().replace(" ", "_").replace(":", "-") + "_" + name;
+        String path;
+        if (System.getProperty("os.name").toLowerCase().contains("mac")) {
+            path = System.getProperty("user.dir") + "/test-output/screenshots/" + name + ".png";
+        } else {
+            path = System.getProperty("user.dir") + "\\test-output\\screenshots\\" + name + ".png";
+        }
+
+        Screenshot screenshot = new AShot()
+                .shootingStrategy(ShootingStrategies.viewportPasting(100)) // 100ms delay between scrolls
+                .takeScreenshot(Driver.getDriver());
+
+        try {
+            ImageIO.write(screenshot.getImage(), "PNG", new File(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return path;
+    }
+
 
     /**
      * Belirtilen web öğesinin sayfada görüntülenip görüntülenmediğini doğrular.

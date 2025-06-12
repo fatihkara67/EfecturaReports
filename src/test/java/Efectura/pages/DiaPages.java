@@ -169,6 +169,18 @@ public class DiaPages extends BasePage {
 
     }
 
+    public void verifyNotErrorLogs(String service) {
+        BrowserUtils.adjustScreenSize(70,Driver.getDriver());
+        BrowserUtils.wait(1);
+        if (!isElementDisplayed(noMatchingInfo)) {
+            results.add(service + ": LogCount: " + numberOfFilteredData.getText() + " SUCCESS");
+        } else {
+            results.add(service + " NO LOG : FAIL");
+            Assert.assertTrue(noMatchingInfo.isDisplayed());
+        }
+
+    }
+
     public String getEmailMessageBody() {
         StringBuilder emailBody = new StringBuilder();
         for (String result : results) {
@@ -242,7 +254,7 @@ public class DiaPages extends BasePage {
 
     private String getEmailMessageBodyForFlow() {
         return "Modül Sayısı: " + modulCount + "\n" + "Menü Sayısı: " + menuCount + "\n" + result +
-                "\n" + getAdviceCount();
+                "\n" + getAdviceCount() + "\n" + oneriSiparis + "\n" + oneriSiparisResults;
     }
 
     public void tedarikciLogin() {
@@ -459,5 +471,66 @@ public class DiaPages extends BasePage {
 
     public void setMessage() {
         results.add("Elastic'e Giriş Yapılamadı");
+    }
+
+    String oneriSiparis = "";
+    public String getOneriSiparisDate() {
+        String query = """
+                select toString(Referans) as Referans,Aciklama,DistKod,Musterikritertip,Musterikriter,Baslangictarihi,Bitistarihi,Durum,Urunkodu,UrunReferans,Miktar,Birim\s
+                FROM my_database.OneriSiparis
+                WHERE Musterikriter IN (select distinct TXTERPKOD from my_database.staging_account_dummy WHERE LNGKOD IN (select distinct LNGMUSTERIKOD from my_database.planned_visits where PLANLANAN_ZIYARET_TARIHI = today()) and (SON_ROUTE_ADI like '%Telesell%' or SON_ROUTE_ID IN (2129,2763,1738)) and BYTDURUM = 0)\s
+                AND Baslangictarihi >= today()
+                """;
+
+
+        try (Connection conn = Database2.getInstance();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            int count = 0;
+            while (rs.next()) {
+                count++;
+                // İlk kolondaki tarih bilgisini al
+                String baslangicTarihi = rs.getString("Baslangictarihi");
+
+                // Sonucu "tarih --- sayı" formatında ekle
+                oneriSiparis = "Öneri Sipariş: " + baslangicTarihi.split(" ")[0] + " --- " + count + " kayıt var";
+//                adviceCounts.append(baslangicTarihi).append(" --- ").append(countValue).append("\n");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Öneri Sipariş:\n" + oneriSiparis);
+        return oneriSiparis;
+    }
+
+    String oneriSiparisResults;
+    public String getOneriSiparisResults() {
+        String query = """
+                select * from my_database.OneriSiparis_Results osr
+                where osr.StartDate >= today()
+                """;
+
+        try (Connection conn = Database2.getInstance();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            int count = 0;
+            while (rs.next()) {
+                count++;
+                String baslangicTarihi = rs.getString("StartDate");
+
+                // Sonucu "tarih --- sayı" formatında ekle
+                oneriSiparisResults = "OneriSiparis_Results: " + baslangicTarihi.split(" ")[0] + " --- " + count + " kayıt var";
+//                adviceCounts.append(baslangicTarihi).append(" --- ").append(countValue).append("\n");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("OneriSiparis_Results:\n" + oneriSiparisResults);
+        return oneriSiparisResults;
+
     }
 }
