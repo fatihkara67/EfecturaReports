@@ -1,7 +1,7 @@
 
 Feature: DIA Environment Controls
 
-  @regression
+  @regressionx
   Scenario: Look for errors
     Given The user login elastic
     Given The user login elastic service
