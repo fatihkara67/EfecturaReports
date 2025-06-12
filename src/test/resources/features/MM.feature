@@ -1,6 +1,6 @@
 Feature: MM Log Errors
 
-  @regression
+  @regressionx
   Scenario: Look for errors
     Given The user login elastic
     Given The user look elastic service for mm

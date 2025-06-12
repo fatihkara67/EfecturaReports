@@ -32,7 +32,7 @@
         <!-- Plugin Versions  -->
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <maven.surefire.plugin.version>3.0.0-M9</maven.surefire.plugin.version>
+        <maven.surefire.plugin.version>3.0.0-M7</maven.surefire.plugin.version>
         <maven.cucumber.reporting.plugin.version>5.7.4</maven.cucumber.reporting.plugin.version>
     </properties>
 
@@ -175,6 +175,11 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>12.8.1.jre8</version>
+        </dependency>
 
 
 
@@ -186,35 +191,24 @@
     <build>
         <plugins>
             <plugin>
-                <!-- Maven Surefire Plugin for running tests -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surefire.plugin.version}</version>
+                <version>3.0.0-M7</version>
                 <configuration>
-                    <!-- Run only test files that match the pattern **/CukesRunner.java -->
+                    <!-- Run only test files that match the pattern **/TestRunner.java -->
                     <includes>
                         <include>**/com/sema/runners/TestRunner.java</include>
                     </includes>
 
-                    <!-- Continue running tests even if some of them fail -->
                     <testFailureIgnore>true</testFailureIgnore>
-
-                    <!-- Order the tests by method name in alphabetical order -->
                     <runOrder>alphabetical</runOrder>
-
-                    <!-- Run each test method in a separate thread -->
                     <parallel>methods</parallel>
-
-                    <!-- Use 3 threads for parallel execution -->
                     <threadCount>1</threadCount>
-
-                    <!-- Use a fixed number of threads, regardless of CPU cores -->
                     <perCoreThreadCount>false</perCoreThreadCount>
-
-                    <!-- Use 2 processes per CPU core for test execution -->
                     <forkCount>2C</forkCount>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>net.masterthought</groupId>
                 <artifactId>maven-cucumber-reporting</artifactId>

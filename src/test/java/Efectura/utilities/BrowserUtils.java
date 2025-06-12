@@ -19,6 +19,9 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.NoSuchElementException;
 
@@ -499,6 +502,43 @@ public class BrowserUtils {
         }
     }
 
+    public static void sendCodeBlockToTelegram(String message, String chatId) throws IOException {
+        String urlString = "https://api.telegram.org/bot" + TELEGRAM_BOT_TOKEN + "/sendMessage";
+        URL url = new URL(urlString);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+        conn.setRequestMethod("POST");
+        conn.setDoOutput(true);
+        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+        // MarkdownV2 özel karakterlerini escape et
+        String escaped = escapeMarkdownV2(message);
+
+        // 3 backtick ile code block yapısı
+        String fullMessage = "```java\n" + escaped + "\n```";
+
+        String data = "chat_id=" + chatId +
+                "&text=" + URLEncoder.encode(fullMessage, StandardCharsets.UTF_8) +
+                "&parse_mode=MarkdownV2";
+
+        try (OutputStream os = conn.getOutputStream()) {
+            os.write(data.getBytes(StandardCharsets.UTF_8));
+        }
+
+        // Opsiyonel: gelen cevabı oku
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                System.out.println(inputLine);
+            }
+        }
+    }
+
+    // MarkdownV2'de özel karakterleri escape et
+    private static String escapeMarkdownV2(String text) {
+        return text.replaceAll("([_\\*\\[\\]\\(\\)~`>#+\\-=|{}.!])", "\\\\$1");
+    }
+
 
 
 
@@ -669,6 +709,36 @@ public class BrowserUtils {
             System.out.println("Silinemedi: " + file.getAbsolutePath());
         }
         return deleted;
+    }
+
+    public static String resultSetToTableString(ResultSet rs) throws SQLException {
+        StringBuilder sb = new StringBuilder();
+
+        ResultSetMetaData meta = rs.getMetaData();
+        int columnCount = meta.getColumnCount();
+
+        // Başlık satırı
+        for (int i = 1; i <= columnCount; i++) {
+            sb.append(String.format("%-20s", meta.getColumnName(i)));
+        }
+        sb.append("\n");
+
+        // Ayraç satırı
+//        for (int i = 1; i <= columnCount; i++) {
+//            sb.append("--------------------");
+//        }
+//        sb.append("\n");
+
+        // İçerik satırları
+        while (rs.next()) {
+            for (int i = 1; i <= columnCount; i++) {
+                String value = rs.getString(i);
+                sb.append(String.format("%-20s", value != null ? value : "NULL"));
+            }
+            sb.append("\n");
+        }
+
+        return sb.toString();
     }
 
 

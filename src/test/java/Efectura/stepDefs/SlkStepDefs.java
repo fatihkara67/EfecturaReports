@@ -8,6 +8,7 @@ import io.cucumber.java.en.When;
 import org.json.JSONException;
 import org.openqa.selenium.Keys;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -92,19 +93,21 @@ public class SlkStepDefs extends BaseStep {
 
     @Given("The user looks SLK log errors")
     public void theUserLooksSLKLogErrors() {
+//        BrowserUtils.adjustScreenSize(70,Driver.getDriver());
         List<String> slkServices = new ArrayList<>(Arrays.asList
                 ("slkFletumApiWeb", "apiRegister","addCallback","CreateItem/EditItem",
                         "slkDBConnector", "slkCEPModule","slkItemService","slkOTPService",
                         "slkCDPService", "profileGet","getProfile","attributeSave","cdpRegister",
                         "slkApiGW", "apiGWgetItems",
                         "slkSisService","sisRegister","crmProducts","guestTransaction","applyGift",
-                        "redeemVoucher","ticketApproval","sisGetItems","applyPromo","SaveCard","SaveCardWithOrderId"
+                        "redeemVoucher","ticketApproval","sisGetItems","applyPromo","SaveCard","SaveCardWithOrderId",
+                        "updatePlayer","sisAddCallback"
                 ));
         Driver.getDriver().get(ConfigurationReader.getProperty("cdpRegister2"));
         for (String service : slkServices) {
 //            BrowserUtils.wait(5);
 //            pages.slkPages().newrelicInputBox.clear();
-            BrowserUtils.wait(3);
+            BrowserUtils.wait(2);
             BrowserUtils.waitForVisibility(pages.slkPages().newrelicInputBox,60);
             pages.slkPages().newrelicInputBox.sendKeys(Keys.CONTROL + "a");
             pages.slkPages().newrelicInputBox.sendKeys(Keys.DELETE);
@@ -117,7 +120,7 @@ public class SlkStepDefs extends BaseStep {
     }
 
     @Given("The user sends telegram sms for slk")
-    public void theUserSendsTelegramSmsForSlk() {
+    public void theUserSendsTelegramSmsForSlk() throws IOException {
         pages.slkPages().sendTelegramSmsForSlk();
     }
 
@@ -135,5 +138,25 @@ public class SlkStepDefs extends BaseStep {
     @Given("The user gets active {string} count")
     public void theUserGetsActiveCount(String itemType) throws JSONException {
         pages.slkPages().getActiveCampaignCount(itemType);
+    }
+
+    @Given("The user gets birthday duplicates")
+    public void theUserGetsBirthdayDuplicates() {
+        pages.slkPages().getDuplicateBirthdates();
+    }
+
+    @Given("The user gets multiple membership associates")
+    public void theUserGetsMultipleMembershipAssociates() {
+        pages.slkPages().getMultipleMembershipAssociates();
+    }
+
+    @Given("The user gets total earnings value of campaigns")
+    public void theUserGetsTotalEarningsValueOfCampaigns() {
+        pages.slkPages().getTotalCampaignEarning();
+    }
+
+    @Given("The user gets empty membership items")
+    public void theUserGetsEmptyMembershipItems() {
+        pages.slkPages().getEmptyMembersihpAccounts();
     }
 }

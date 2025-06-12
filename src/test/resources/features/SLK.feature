@@ -8,7 +8,17 @@ Feature: SLK Errors
     Given The user gets GetApps response
     Given The user gets active "Campaign" count
     Given The user looks for pods
+    Given The user gets total earnings value of campaigns
+    Given The user gets birthday duplicates
+    Given The user gets multiple membership associates
+    Given The user gets empty membership items
     Given The user sends telegram sms for slk
+
+
+
+
+
+
 #    Given user login to outlook
 #    Given user sends the mail
 #    Given user send group mail for slk
