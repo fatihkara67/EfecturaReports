@@ -3,6 +3,7 @@ package Efectura.stepDefs;
 import Efectura.utilities.BrowserUtils;
 import Efectura.utilities.ConfigurationReader;
 import Efectura.utilities.Driver;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import org.json.JSONException;
@@ -158,5 +159,16 @@ public class SlkStepDefs extends BaseStep {
     @Given("The user gets empty membership items")
     public void theUserGetsEmptyMembershipItems() {
         pages.slkPages().getEmptyMembersihpAccounts();
+    }
+
+    @Given("Check")
+    public void check() throws IOException {
+        pages.slkPages().checkDB();
+    }
+
+
+    @And("The user send aply gift request for acc {string} gift {string} and venue {string}")
+    public void theUserSendApllyGiftRequestForAccGiftAndVenue(String accountId, String giftItemId, String venueId) {
+        BrowserUtils.sendApplyGiftRequest(accountId,giftItemId,venueId);
     }
 }

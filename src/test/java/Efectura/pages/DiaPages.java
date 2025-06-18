@@ -172,6 +172,7 @@ public class DiaPages extends BasePage {
     public void verifyNotErrorLogs(String service) {
         BrowserUtils.adjustScreenSize(70,Driver.getDriver());
         BrowserUtils.wait(1);
+        results.add("------------------------\nAktarım Logları: ");
         if (!isElementDisplayed(noMatchingInfo)) {
             results.add(service + ": LogCount: " + numberOfFilteredData.getText() + " SUCCESS");
         } else {
@@ -254,7 +255,8 @@ public class DiaPages extends BasePage {
 
     private String getEmailMessageBodyForFlow() {
         return "Modül Sayısı: " + modulCount + "\n" + "Menü Sayısı: " + menuCount + "\n" + result +
-                "\n" + getAdviceCount() + "\n" + oneriSiparis + "\n" + oneriSiparisResults;
+                "\n" + getAdviceCount() + "\n------------------------\nAktarım Sorguları:\n" + oneriSiparis +
+                "\n" + oneriSiparisResults;
     }
 
     public void tedarikciLogin() {
