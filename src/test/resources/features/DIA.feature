@@ -16,6 +16,7 @@ Feature: DIA Environment Controls
     Given The user gets Advice Count
     Given The user gets oneri siparis date
     Given The user gets OneriSiparis_Results
+#    Given The user get log count
     Given The user sends telegram sms for dia
 
 

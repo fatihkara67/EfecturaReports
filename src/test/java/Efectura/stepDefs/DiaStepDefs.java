@@ -3,6 +3,8 @@ package Efectura.stepDefs;
 import Efectura.utilities.BrowserUtils;
 import Efectura.utilities.ConfigurationReader;
 import Efectura.utilities.Driver;
+import Efectura.utilities.ElasticsearchConnector;
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -157,5 +159,13 @@ public class DiaStepDefs extends BaseStep {
     @Given("The user gets OneriSiparis_Results")
     public void theUserGetsOneriSiparis_Results() {
         pages.diaPages().getOneriSiparisResults();
+    }
+
+    @Given("The user get log count")
+    public void theUserGetLogCount() throws Exception {
+        ElasticsearchClient client = ElasticsearchConnector.createClient();
+
+        long count = ElasticsearchConnector.getLogCount(client, "logs-*", "tr-fletum-cdp-diaservice");
+        System.out.println("Log count for service: " + count);
     }
 }

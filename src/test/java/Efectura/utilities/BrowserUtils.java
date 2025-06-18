@@ -662,7 +662,7 @@ public class BrowserUtils {
 
 
     public static JSONArray getItemsByType(String itemType) throws JSONException {
-        String sessionId = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyNzA5Njg1My03YjAyLTQ4NGEtYTVjMy0zNDliOTVkMzIwYmMiLCJqdGkiOiJkZDI1Yjc5Ny1lNTBlLTRhODEtYTBjNS1hNDA3MDEwNjFmZmEiLCJuYW1lIjoiZjc3N2EyOTgtOTQyZC00NjU4LThlY2EtMzMwNDg2ZDYzMjcxXzU0NjExNDY3MTYiLCJpYXQiOiIwNC8wNC8yMDI1IDA3OjUyOjA5IiwibmJmIjoxNzQzNzUzMTI5LCJleHAiOjE3NDM3ODMxMjl9.FjY8LWq9V3POofaFmXd-S2e7vPTWpS63AKxvq-O_bis";
+        String sessionId = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyNzA5Njg1My03YjAyLTQ4NGEtYTVjMy0zNDliOTVkMzIwYmMiLCJqdGkiOiIwOWU2NzUzZi1jNDIyLTRmYjItYmZhYy1lYmQ4YTNmYTM2MmUiLCJuYW1lIjoiZjc3N2EyOTgtOTQyZC00NjU4LThlY2EtMzMwNDg2ZDYzMjcxXzU0NjExNDY3MTYiLCJpYXQiOiIwNi8xOC8yMDI1IDA2OjQ4OjQ1IiwibmJmIjoxNzUwMjI5MzI1LCJleHAiOjE3NTAyNTkzMjV9.tdUkJI_L13vzruxMw9ebfl_Sa_VBcLu0j43A_snCT_s";
 
         // İstek body’sini JSON olarak oluştur
         JSONObject requestBody = new JSONObject();
@@ -671,7 +671,7 @@ public class BrowserUtils {
         JSONObject dynamicFilters = new JSONObject();
         dynamicFilters.put("ItemStatuses", 5);
         requestBody.put("dynamicFilters", dynamicFilters);
-        requestBody.put("pageSize", 20);
+        requestBody.put("pageSize", 50);
 
         // REST isteği
         Response response = RestAssured.given()
@@ -766,6 +766,43 @@ public class BrowserUtils {
         }
 
         return sb.toString();
+    }
+
+    public static void sendApplyGiftRequest(String accountId, String giftItemId, String venueId) {
+        try {
+            String baseUrl = "https://fletum-sis-staging.silktech.ge/Item/ApplyGift";
+            String queryParams = String.format(
+                    "?accountId=%s&giftItemId=%s&point=0&paymentCount=1&venueId=%s",
+                    accountId, giftItemId, venueId
+            );
+
+            URL url = new URL(baseUrl + queryParams);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            // Header'lar
+            conn.setRequestProperty("accept", "*/*");
+            conn.setRequestProperty("SessionId", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyNzA5Njg1My03YjAyLTQ4NGEtYTVjMy0zNDliOTVkMzIwYmMiLCJqdGkiOiIwOWU2NzUzZi1jNDIyLTRmYjItYmZhYy1lYmQ4YTNmYTM2MmUiLCJuYW1lIjoiZjc3N2EyOTgtOTQyZC00NjU4LThlY2EtMzMwNDg2ZDYzMjcxXzU0NjExNDY3MTYiLCJpYXQiOiIwNi8xOC8yMDI1IDA2OjQ4OjQ1IiwibmJmIjoxNzUwMjI5MzI1LCJleHAiOjE3NTAyNTkzMjV9.tdUkJI_L13vzruxMw9ebfl_Sa_VBcLu0j43A_snCT_s"); // token buraya
+            conn.setRequestProperty("Discount", "0");
+
+            // Yanıtı oku
+            int responseCode = conn.getResponseCode();
+            System.out.println("HTTP Response Code: " + responseCode);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    conn.getInputStream()));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+            while ((inputLine = in.readLine()) != null)
+                response.append(inputLine);
+            in.close();
+
+            System.out.println("Response Body: ");
+            System.out.println(response.toString());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

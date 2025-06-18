@@ -140,7 +140,7 @@ public class CommonExcelReader {
     }
     public static String getExcelPath(String fileName) {
         String projectDir = System.getProperty("user.dir");
-        String relativePath = "src/test/resources/testData/" + fileName + ".xlsx";
+        String relativePath = "src/test/resources/data/" + fileName + ".xlsx";
         return Paths.get(projectDir, relativePath).toString();
     }
 

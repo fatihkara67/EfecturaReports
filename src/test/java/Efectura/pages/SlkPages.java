@@ -141,7 +141,7 @@ public class SlkPages extends BasePage {
 
     List<String> results = new ArrayList<>();
     public void verify(String service) {
-        BrowserUtils.wait(2);
+        BrowserUtils.wait(3);
 //        BrowserUtils.adjustScreenSize(70,Driver.getDriver());
         if (!isElementDisplayed(noMatchingInfo)) {
             results.add(service + ": Error Number: " + errorInfoNewRelic.getText());
@@ -153,7 +153,7 @@ public class SlkPages extends BasePage {
 
     List<String> resultsForRestarts = new ArrayList<>();
     public void verifyForRestarts(String restart) {
-        BrowserUtils.wait(2);
+        BrowserUtils.wait(3);
         if (!isElementDisplayed(noMatchingInfo)) {
             resultsForRestarts.add(restart + ": Error Number: " + errorInfoNewRelic.getText());
         } else {
@@ -408,7 +408,7 @@ public class SlkPages extends BasePage {
 
     int multipleMembershipCount = 0;
     String multipleMembershipDetails;
-    String multipleMembershipResult = "MultipleMembershipAssociationControl: ";
+    String multipleMembershipResult = "MultipleMembershipAssociation: ";
     public void getMultipleMembershipAssociates() {
         String query = """
                 select SecondItemId FROM Associations
@@ -545,5 +545,34 @@ public class SlkPages extends BasePage {
         } else {
             emptyMembershipAccountResult += "SUCCESS: QueryBoşDöndü";
         }
+    }
+
+    public void checkDB() throws IOException {
+        String excelPath = CommonExcelReader.getExcelPath("asd");
+        String dbSKU = null;
+        for (int i = 1; i <= 3527; i++) {
+            dbSKU = null;
+//            BrowserUtils.wait(1);
+            String cellValue = CommonExcelReader.getCellValue(excelPath,"SKU",i);
+
+            String query = "Select * From Items Where SKU = '" + cellValue.trim() + "'";
+
+            try (Connection conn = Database.getInstance();
+                 Statement stmt = conn.createStatement();
+                 ResultSet rs = stmt.executeQuery(query)
+            ) {
+
+                while (rs.next()) {
+                    dbSKU = rs.getString("SKU");
+                }
+                if (dbSKU == null) {
+                    System.out.println(i + " - " +  cellValue + " -- " + dbSKU);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }

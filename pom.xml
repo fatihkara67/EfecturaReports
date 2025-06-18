@@ -187,6 +187,20 @@
             <version>1.5.4</version>
         </dependency>
 
+        <!-- Elasticsearch Java Client -->
+        <dependency>
+            <groupId>co.elastic.clients</groupId>
+            <artifactId>elasticsearch-java</artifactId>
+            <version>8.8.2</version>
+        </dependency>
+
+        <!-- Apache HttpClient5 -->
+        <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
+            <version>5.3.1</version>
+        </dependency>
+
 
 
 
