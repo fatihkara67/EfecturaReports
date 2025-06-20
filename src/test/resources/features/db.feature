@@ -1,5 +1,10 @@
 Feature: db check
 
+  Scenario: newrelic
+    Given The user login new relic
+    Given The user check logs
+
+
   Scenario: db
     Given Check
 
