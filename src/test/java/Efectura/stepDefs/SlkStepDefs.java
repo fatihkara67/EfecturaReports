@@ -1,6 +1,7 @@
 package Efectura.stepDefs;
 
 import Efectura.utilities.BrowserUtils;
+import Efectura.utilities.CommonExcelReader;
 import Efectura.utilities.ConfigurationReader;
 import Efectura.utilities.Driver;
 import io.cucumber.java.en.And;
@@ -170,5 +171,27 @@ public class SlkStepDefs extends BaseStep {
     @And("The user send aply gift request for acc {string} gift {string} and venue {string}")
     public void theUserSendApllyGiftRequestForAccGiftAndVenue(String accountId, String giftItemId, String venueId) {
         BrowserUtils.sendApplyGiftRequest(accountId,giftItemId,venueId);
+    }
+
+    @Given("The user check logs")
+    public void theUserCheckLogs() throws IOException {
+        String excelPath = CommonExcelReader.getExcelPath("IBAN");
+
+        Driver.getDriver().get("https://one.eu.newrelic.com/logger?account=4144276&begin=1746087600000&end=1748387280000&state=afdf1df6-df21-24c4-0971-f9d5203c05d2");
+        for (int i = 1; i <= 273; i++) {
+            String cellValue = CommonExcelReader.getCellValue(excelPath,"SKU",i);
+            String actualIban = cellValue.substring(0, cellValue.length() - 3);
+            String query = "entity.name:\"*sis*\" \"AUTHORIZATION\" \"" + actualIban + "\"";
+
+            BrowserUtils.wait(10);
+            BrowserUtils.waitForVisibility(pages.slkPages().newrelicInputBox,60);
+            pages.slkPages().newrelicInputBox.sendKeys(Keys.CONTROL + "a");
+            pages.slkPages().newrelicInputBox.sendKeys(Keys.DELETE);
+//            BrowserUtils.wait(1);
+            pages.slkPages().newrelicInputBox.sendKeys(query);
+            pages.slkPages().queryLogsButton.click();
+//            BrowserUtils.wait(1);
+            pages.slkPages().verify(i + " " + cellValue);
+        }
     }
 }

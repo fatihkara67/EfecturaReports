@@ -454,7 +454,7 @@ public class SlkPages extends BasePage {
 
     }
 
-    int totalEarning = 0;
+    double totalEarning = 0;
     String totalEarningResult;
     public void getTotalCampaignEarning() {
         String query = """
@@ -470,7 +470,7 @@ public class SlkPages extends BasePage {
         ) {
 
             while (rs.next()) {
-                totalEarning = rs.getInt("PointTotal");
+                totalEarning = rs.getDouble("PointTotal");
             }
             System.out.println("totalEarning: " + totalEarning);
             totalEarningResult = "Total Campaign Earning : " + totalEarning;
